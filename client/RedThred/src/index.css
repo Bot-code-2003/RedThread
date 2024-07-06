@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles */
+body {
+  @apply text-gray-900 font-sans;
+}
+
+header {
+  @apply bg-primary-dark text-white py-4;
+}
+
+footer {
+  @apply bg-secondary-dark text-white py-4 mt-8;
+}
