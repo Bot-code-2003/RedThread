@@ -7,13 +7,9 @@ import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const TextForm = ({ postID, setPostID }) => {
+const TextForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const post = useSelector((state) =>
-    postID ? state.posts.find((post) => post._id === postID) : null
-  );
 
   const [postData, setPostData] = useState({
     creator: "",
@@ -22,10 +18,6 @@ const TextForm = ({ postID, setPostID }) => {
     tags: "",
     selectedFile: "",
   });
-
-  useEffect(() => {
-    if (post) setPostData(post);
-  }, [post]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,17 +30,13 @@ const TextForm = ({ postID, setPostID }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (postID) {
-      dispatch(updatePost(postID, postData));
-    } else {
-      dispatch(createPost(postData));
-    }
+
+    dispatch(createPost(postData));
     clear();
     navigate("/");
   };
 
   const clear = () => {
-    setPostID(null);
     setPostData({
       creator: "",
       title: "",

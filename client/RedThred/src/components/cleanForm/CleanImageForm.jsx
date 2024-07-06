@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import FileBase from "react-file-base64";
 import { styles } from "../../styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
 import { useNavigate } from "react-router-dom";
 
-// import { FileUploader } from "react-drag-drop-files";
 // const fileTypes = ["JPG", "PNG"];
 
-const ImageForm = ({ postID, setPostID }) => {
+const CleanImageForm = () => {
   // const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const post = useSelector((state) =>
-    postID ? state.posts.find((post) => post._id === postID) : null
-  );
-
-  useEffect(() => {
-    if (post) setPostData(post);
-  }, [post]);
 
   const [postData, setPostData] = useState({
     creator: "",
@@ -31,17 +22,12 @@ const ImageForm = ({ postID, setPostID }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (postID) {
-      dispatch(updatePost(postID, postData));
-    } else {
-      dispatch(createPost(postData));
-    }
+    dispatch(createPost(postData));
     clear();
     navigate("/");
   };
 
   const clear = () => {
-    setPostID(null);
     setPostData({
       creator: "",
       title: "",
@@ -51,9 +37,9 @@ const ImageForm = ({ postID, setPostID }) => {
     });
   };
 
-  const handleChange = (file) => {
-    setFile(file);
-  };
+  // const handleChange = (file) => {
+  //   setFile(file);
+  // };
 
   return (
     <div>
@@ -92,12 +78,6 @@ const ImageForm = ({ postID, setPostID }) => {
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
 
-        <img
-          src={post.selectedFile}
-          style={{ width: "50%", maxHeight: "450px", borderRadius: "5px" }}
-          alt=""
-        />
-
         <div className="p-2 mb-4">
           <FileBase
             type="file"
@@ -134,4 +114,4 @@ const ImageForm = ({ postID, setPostID }) => {
   );
 };
 
-export default ImageForm;
+export default CleanImageForm;

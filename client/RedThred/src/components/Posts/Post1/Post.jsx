@@ -5,8 +5,15 @@ import moment from "moment-timezone";
 import React from "react";
 import { Button } from "@mui/material";
 import { styles } from "../../../styles";
+import { useNavigate } from "react-router-dom";
 
-const Post = ({ post }) => {
+const Post = ({ post, setPostID }) => {
+  const navigate = useNavigate();
+  const handleHorizIconClick = () => {
+    setPostID(post._id);
+    navigate("/create");
+  };
+
   return (
     <div className="p-4 shadow-md">
       <div className="post-part-1 flex justify-between mb-1">
@@ -17,7 +24,11 @@ const Post = ({ post }) => {
             • {moment(post.createdAt).tz("Asia/Kolkata").fromNow()}
           </p>
         </div>
-        <Button style={{ color: "gray" }} size="small" onClick={() => {}}>
+        <Button
+          style={{ color: "gray" }}
+          size="small"
+          onClick={handleHorizIconClick}
+        >
           <MoreHorizIcon fontSize="medium" />
         </Button>
       </div>

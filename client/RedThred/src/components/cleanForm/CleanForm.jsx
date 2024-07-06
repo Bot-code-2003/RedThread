@@ -1,16 +1,8 @@
 import React, { useState } from "react";
-import TextForm from "./TextForm";
-import ImageForm from "./ImageForm";
-import { useSelector } from "react-redux";
+import CleanTextForm from "./CleanTextForm";
+import CleanImageForm from "./CleanImageForm";
 
-const Form = ({ postID, setPostID }) => {
-  const post = useSelector((state) =>
-    state.posts.find((post) => post._id === postID)
-  );
-
-  const [textForm, setTextForm] = useState(post.selectedFile ? false : true);
-  const [imageForm, setImageForm] = useState(post.selectedFile ? true : false);
-
+const CleanForm = () => {
   const handleTextClick = () => {
     setTextForm(true);
     setImageForm(false);
@@ -19,6 +11,8 @@ const Form = ({ postID, setPostID }) => {
     setTextForm(false);
     setImageForm(true);
   };
+  const [textForm, setTextForm] = useState(true);
+  const [imageForm, setImageForm] = useState(false);
   return (
     <div>
       <div className="flex gap-2 mb-2">
@@ -39,15 +33,9 @@ const Form = ({ postID, setPostID }) => {
           Image
         </button>
       </div>
-      <div>
-        {textForm ? (
-          <TextForm postID={postID} setPostID={setPostID} />
-        ) : (
-          <ImageForm postID={postID} setPostID={setPostID} />
-        )}
-      </div>
+      <div>{textForm ? <CleanTextForm /> : <CleanImageForm />}</div>
     </div>
   );
 };
 
-export default Form;
+export default CleanForm;
