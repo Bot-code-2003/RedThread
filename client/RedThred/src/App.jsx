@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import SectionWrapper from "./hoc/SectionWrapper";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import Form from "./components/Form/Form";
 import Posts from "./components/Posts/Posts";

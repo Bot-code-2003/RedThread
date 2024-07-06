@@ -1,9 +1,9 @@
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import DeleteIcon from "@material-ui/icons/Delete";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import DeleteIcon from "@mui/icons-material/Delete";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment-timezone";
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { styles } from "../../../styles";
 
 const Post = ({ post }) => {
@@ -26,7 +26,11 @@ const Post = ({ post }) => {
           <h1 className={styles.titleText}>{post.title}</h1>
           <p className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</p>
         </div>
-        <p className={styles.paragraphText}>{post.message}</p>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: post.message.substring(0, 320) + "...",
+          }}
+        />
       </div>
       <div className="post-part-3 mb-1">
         <img

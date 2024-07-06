@@ -1,100 +1,39 @@
 import React, { useState } from "react";
-import FileBase from "react-file-base64";
-import { styles } from "../../styles";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
-import { useNavigate } from "react-router-dom";
+import TextForm from "./TextForm";
+import ImageForm from "./ImageForm";
 
 const Form = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const [postData, setPostData] = useState({
-    creator: "",
-    title: "",
-    message: "",
-    tags: "",
-    selectedFile: "",
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createPost(postData));
-    navigate("/");
+  const handleTextClick = () => {
+    setTextForm(true);
+    setImageForm(false);
   };
-
-  const clear = () => {
-    setPostData({
-      creator: "",
-      title: "",
-      message: "",
-      tags: "",
-      selectedFile: "",
-    });
+  const handleImageClick = () => {
+    setTextForm(false);
+    setImageForm(true);
   };
+  const [textForm, setTextForm] = useState(true);
+  const [imageForm, setImageForm] = useState(false);
   return (
     <div>
-      <form
-        className="shadow-md p-4"
-        onSubmit={handleSubmit}
-        autoComplete="off"
-        noValidate
-      >
-        <h1 className={`${styles.titleText}`}>Weave a Thread</h1>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Creator"
-          name="creator"
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        />
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Title"
-          name="title"
-          value={postData.title}
-          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
-        />
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Message"
-          name="message"
-          value={postData.message}
-          onChange={(e) =>
-            setPostData({ ...postData, message: e.target.value })
-          }
-        />
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Tags"
-          name="tags"
-          value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
-        />
-        <div className="p-2 mb-4">
-          <FileBase
-            type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
-          />
-        </div>
-        <div className="flex justify-between">
-          <button className={styles.button} type="submit">
-            Submit
-          </button>
-          <button className={styles.clearButton} onClick={clear}>
-            Clear
-          </button>
-        </div>
-      </form>
+      <div className="flex gap-2 mb-2">
+        <button
+          className={`${
+            textForm ? "bg-gray-300" : "bg-gray-100"
+          } p-2 hover:bg-gray-200`}
+          onClick={handleTextClick}
+        >
+          Text
+        </button>
+        <button
+          className={`${
+            imageForm ? "bg-gray-300" : "bg-gray-100"
+          } p-2 hover:bg-gray-200`}
+          onClick={handleImageClick}
+        >
+          Image
+        </button>
+      </div>
+      <div>{textForm ? <TextForm /> : <ImageForm />}</div>
     </div>
   );
 };

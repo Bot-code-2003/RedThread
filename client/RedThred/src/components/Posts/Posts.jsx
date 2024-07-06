@@ -1,6 +1,6 @@
 import React from "react";
 import Post from "./Post1/Post";
-import { Grid, CircularProgress } from "@material-ui/core";
+import { Grid, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const Posts = () => {
