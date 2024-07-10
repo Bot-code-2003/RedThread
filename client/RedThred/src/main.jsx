@@ -19,7 +19,7 @@ const store = configureStore({
 // Render the React application
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
-    <GoogleOAuthProvider clientId="mermaid">
+    <GoogleOAuthProvider clientId="YOUR_CLIENT_ID">
       <Provider store={store}>
         <Navbar />
         <App />
