@@ -7,6 +7,7 @@ import Posts from "./components/Posts/Posts";
 import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/posts";
 import { Routes, Route } from "react-router-dom";
+import Auth from "./Auth/Auth";
 
 const App = () => {
   const [postID, setPostID] = useState(null);
@@ -35,6 +36,7 @@ const App = () => {
           element={<Form postID={postID} setPostID={setPostID} />}
         />
         <Route path="/cleanCreate" element={<CleanForm />} />
+        <Route path="/auth" element={<Auth />} />
       </Routes>
     </div>
   );

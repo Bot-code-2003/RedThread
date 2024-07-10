@@ -5,21 +5,25 @@ import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import reducers from "./reducers";
 import { BrowserRouter as Router } from "react-router-dom";
-
 import App from "./App";
 import "./index.css";
 import Navbar from "./components/Navbar";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
+// Configure the Redux store
 const store = configureStore({
   reducer: reducers,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
+// Render the React application
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
-    <Provider store={store}>
-      <Navbar />
-      <App />
-    </Provider>
+    <GoogleOAuthProvider clientId="741553992517-bshee49mq61rfqohqhol0f25q9d1fk8i.apps.googleusercontent.com">
+      <Provider store={store}>
+        <Navbar />
+        <App />
+      </Provider>
+    </GoogleOAuthProvider>
   </Router>
 );

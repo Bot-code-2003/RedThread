@@ -66,7 +66,7 @@ const TextForm = ({ postID, setPostID }) => {
         autoComplete="off"
         noValidate
       >
-        <h1 className={`${styles.titleText}`}>Weave a Thread</h1>
+        <h1 className={`${styles.titleText}`}>Edit Thread</h1>
         <input
           className={styles.input}
           type="text"

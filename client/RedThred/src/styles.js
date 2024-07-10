@@ -14,6 +14,10 @@ const styles = {
     "px-4 py-2 bg-secondary-dark text-white rounded-sm hover:bg-secondary-medium transition-colors duration-150 w-[73%]",
   clearButton:
     "px-4 py-2 bg-primary-dark text-white rounded-sm hover:bg-primary-medium transition-colors duration-150 w-[23%]",
+  divider: {
+    width: "40%",
+    margin: "0 10px",
+  },
 };
 
 export { styles };

@@ -81,6 +81,7 @@ const TextForm = () => {
             color: "black",
             backgroundColor: "white",
             fontWeight: "normal",
+            marginBottom: "15px",
           }}
         />
 
