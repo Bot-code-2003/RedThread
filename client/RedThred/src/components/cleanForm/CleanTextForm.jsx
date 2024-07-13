@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const TextForm = () => {
+const CleanTextForm = () => {
+  const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -31,14 +31,13 @@ const TextForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(createPost(postData));
+    dispatch(createPost({ ...postData, name: user?.result?.name }));
     clear();
     navigate("/");
   };
 
   const clear = () => {
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -55,14 +54,7 @@ const TextForm = () => {
         noValidate
       >
         <h1 className={`${styles.titleText}`}>Weave a Thread</h1>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Creator"
-          name="creator"
-          value={postData.creator}
-          onChange={handleInputChange}
-        />
+
         <input
           className={styles.input}
           type="text"
@@ -107,4 +99,4 @@ const TextForm = () => {
   );
 };
 
-export default TextForm;
+export default CleanTextForm;

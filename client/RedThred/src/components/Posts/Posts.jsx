@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const Posts = ({ setPostID }) => {
   const posts = useSelector((state) => state.posts);
-  console.log(posts);
+  console.log("posts: ", posts);
   return !posts.length ? (
     <CircularProgress style={{ margin: "25% 50%" }} />
   ) : (

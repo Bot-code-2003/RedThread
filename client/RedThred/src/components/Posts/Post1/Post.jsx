@@ -38,7 +38,7 @@ const Post = ({ post, setPostID }) => {
     <div className="p-4 shadow-md">
       <div className="post-part-1 flex justify-between mb-1">
         <div className="flex">
-          <p className="text-post-darker">{post.creator} &nbsp;</p>
+          <p className="text-post-darker">{post.name} &nbsp;</p>
           <p className="text-post-darker">
             {" "}
             • {moment(post.createdAt).tz("Asia/Kolkata").fromNow()}

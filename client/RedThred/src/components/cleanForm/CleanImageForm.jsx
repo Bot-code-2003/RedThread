@@ -9,11 +9,11 @@ import { useNavigate } from "react-router-dom";
 
 const CleanImageForm = () => {
   // const [file, setFile] = useState(null);
+  const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -22,14 +22,13 @@ const CleanImageForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    dispatch(createPost({ ...postData, name: user?.result?.name }));
     clear();
     navigate("/");
   };
 
   const clear = () => {
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -50,16 +49,7 @@ const CleanImageForm = () => {
         noValidate
       >
         <h1 className={`${styles.titleText}`}>Weave a Thread</h1>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Creator"
-          name="creator"
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        />
+
         <input
           className={styles.input}
           type="text"

@@ -6,12 +6,10 @@ const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const [userCLick, setUserClick] = useState(false);
 
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("profile")));
-  }, []);
-
   const handleCreateClick = () => {
-    navigate("/cleanCreate");
+    {
+      user ? navigate("/cleanCreate") : navigate("/auth");
+    }
   };
 
   const handleLoginClick = () => {
@@ -25,6 +23,7 @@ const Navbar = () => {
   const logout = () => {
     localStorage.clear();
     setUser(null);
+    setUserClick(false);
     navigate("/");
   };
   const location = useLocation();
@@ -35,6 +34,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
   // console.log("Local Storage user: ", user);
+  // console.log("UserClick: ", userCLick);
 
   return (
     <>
@@ -56,16 +56,25 @@ const Navbar = () => {
             <div className="relative">
               <button
                 onClick={handleUserLoginClick}
-                className="w-[50px] h-[50px] rounded-full flex items-center justify-center"
+                className="w-[50px] h-[50px] rounded-full flex items-center bg-purple-500 justify-center"
               >
-                <img
-                  src={user.token.picture}
+                <img /* Google login */
+                  src={user?.token?.picture}
                   alt=""
                   style={{ borderRadius: "50%" }}
                 />
+                <h3 className="text-white bolder text-center">
+                  {" "}
+                  {/* Mannual login */}
+                  {user?.result?.name.charAt(0).toUpperCase()}
+                </h3>
               </button>
               {userCLick && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
+                  <button className="block w-full px-4 py-2 text-left text-black hover:bg-gray-200">
+                    {user?.result?.name} {/* Mannual login */}
+                    {user?.token?.name} {/* Google login */}
+                  </button>
                   <button
                     onClick={logout}
                     className="block w-full px-4 py-2 text-left text-black hover:bg-gray-200"

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const ImageForm = ({ postID, setPostID }) => {
   // const [file, setFile] = useState(null);
+  const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,7 +23,6 @@ const ImageForm = ({ postID, setPostID }) => {
   }, [post]);
 
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -32,9 +32,9 @@ const ImageForm = ({ postID, setPostID }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (postID) {
-      dispatch(updatePost(postID, postData));
+      dispatch(updatePost(postID, { ...postData, name: user?.result?.name }));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.result?.name }));
     }
     clear();
     navigate("/");
@@ -43,7 +43,6 @@ const ImageForm = ({ postID, setPostID }) => {
   const clear = () => {
     setPostID(null);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -64,16 +63,7 @@ const ImageForm = ({ postID, setPostID }) => {
         noValidate
       >
         <h1 className={`${styles.titleText}`}>Edit Thread</h1>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Creator"
-          name="creator"
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        />
+
         <input
           className={styles.input}
           type="text"

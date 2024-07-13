@@ -14,6 +14,8 @@ import { Box, Divider } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { signup, signin } from "../actions/auth";
+
 import { jwtDecode } from "jwt-decode";
 // import GoogleButton from "./GoogleButton";
 
@@ -24,14 +26,29 @@ export default function Auth() {
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = React.useState(false);
   const navigate = useNavigate();
+  const [visible, setVisible] = React.useState(false);
+
+  const initialData = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  };
+
+  const [formData, setFormData] = React.useState(initialData);
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    // console.log(formData);
+    if (isSignUp) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(signin(formData, navigate));
+    }
   };
 
   const styles = {
@@ -70,9 +87,13 @@ export default function Auth() {
         <GoogleLogin
           onSuccess={(credentialResponse) => {
             // console.log(credentialResponse);
-            const token = jwtDecode(credentialResponse?.credential);
+            const result = jwtDecode(credentialResponse?.credential);
+            const token = credentialResponse?.credential;
             try {
-              dispatch({ type: "AUTH", data: { credentialResponse, token } });
+              dispatch({
+                type: "AUTH",
+                payload: { result, token },
+              });
               navigate("/");
             } catch (error) {
               console.log(error);
@@ -108,6 +129,7 @@ export default function Auth() {
                     id="firstName"
                     label="First Name"
                     autoFocus
+                    onChange={handleChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -118,6 +140,7 @@ export default function Auth() {
                     label="Last Name"
                     name="lastName"
                     autoComplete="family-name"
+                    onChange={handleChange}
                   />
                 </Grid>
               </>
@@ -132,18 +155,28 @@ export default function Auth() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{ position: "relative" }}>
               <TextField
                 required
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={visible ? "text" : "password"}
                 id="password"
                 autoComplete="new-password"
+                onChange={handleChange}
               />
+              <div className="absolute top-[45%] right-5">
+                <p
+                  onClick={() => setVisible(!visible)}
+                  className="text-gray-400 hover:underline cursor-pointer"
+                >
+                  Show
+                </p>
+              </div>
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel

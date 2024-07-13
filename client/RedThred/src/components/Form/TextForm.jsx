@@ -8,6 +8,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const TextForm = ({ postID, setPostID }) => {
+  const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -16,7 +17,6 @@ const TextForm = ({ postID, setPostID }) => {
   );
 
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -39,9 +39,9 @@ const TextForm = ({ postID, setPostID }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (postID) {
-      dispatch(updatePost(postID, postData));
+      dispatch(updatePost(postID, { ...postData, name: user?.result?.name }));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.result?.name }));
     }
     clear();
     navigate("/");
@@ -50,7 +50,6 @@ const TextForm = ({ postID, setPostID }) => {
   const clear = () => {
     setPostID(null);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -67,14 +66,7 @@ const TextForm = ({ postID, setPostID }) => {
         noValidate
       >
         <h1 className={`${styles.titleText}`}>Edit Thread</h1>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Creator"
-          name="creator"
-          value={postData.creator}
-          onChange={handleInputChange}
-        />
+
         <input
           className={styles.input}
           type="text"
