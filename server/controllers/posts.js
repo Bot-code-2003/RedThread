@@ -68,11 +68,15 @@ export const likePost = async (req, res) => {
     return res.status(404).send("No post with that id");
   try {
     const post = await PostMessage.findById(_id);
-    const index = post.likes.findIndex((id) => id === String(req.userId));
+    const index = await post.likes.findIndex((id) => id === String(req.userId));
     if (index === -1) {
+      // if user not in likes array then add him
       post.likes.push(req.userId);
+      console.log("Like added");
     } else {
-      post.likes.filter((id) => id !== String(userId));
+      // if user already in likes array then remove him
+      console.log("Like removed");
+      post.likes = post.likes.filter((id) => id !== String(req.userId)); //remember filter returns an array.
     }
     const updatePost = await PostMessage.findByIdAndUpdate(_id, post, {
       new: true,

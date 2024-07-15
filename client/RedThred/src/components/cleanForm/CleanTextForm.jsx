@@ -83,7 +83,9 @@ const CleanTextForm = () => {
           placeholder="Tags"
           name="tags"
           value={postData.tags}
-          onChange={handleInputChange}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
 
         <div className="flex justify-between">

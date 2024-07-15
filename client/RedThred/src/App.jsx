@@ -24,8 +24,8 @@ const App = () => {
         <Route
           path="/"
           element={
-            <Grid container justifyContent="flex-start" spacing={3}>
-              <Grid item xs={12} sm={7}>
+            <Grid container>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
                 <Posts setPostID={setPostID} />
               </Grid>
             </Grid>

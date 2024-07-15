@@ -1,29 +1,30 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class", // Enable class-based dark mode
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
         post: {
-          light: "#f3f4f6", // Light gray
-          medium: "#e5e7eb", // Default gray
-          dark: "#9ca3af", // Dark gray
-          darker: "#6b7280", // Darker gray
+          light: "#f3f4f6",
+          medium: "#e5e7eb",
+          dark: "#9ca3af",
+          darker: "#6b7280",
         },
         primary: {
-          light: "#ff7c7c", // Light red
-          medium: "#ff4949", // Default red
-          dark: "#b80000", // Dark red
+          light: "#ff7c7c",
+          medium: "#ff4949",
+          dark: "#b80000",
         },
         secondary: {
-          light: "#6ab0f3", // Light blue
-          medium: "#468ed1", // Default blue
-          dark: "#005bb5", // Dark blue
+          light: "#6ab0f3",
+          medium: "#468ed1",
+          dark: "#005bb5",
         },
         accent: {
-          light: "#ffe6a7", // Light yellow
-          medium: "#ffcf44", // Default yellow
-          dark: "#b89400", // Dark yellow
+          light: "#ffe6a7",
+          medium: "#ffcf44",
+          dark: "#b89400",
         },
       },
       fontFamily: {

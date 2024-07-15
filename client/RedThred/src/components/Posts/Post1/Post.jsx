@@ -1,9 +1,11 @@
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment-timezone";
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material"; // Import CircularProgress for loading animation
 import { styles } from "../../../styles";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -11,14 +13,16 @@ import { deletePost, likePost } from "../../../actions/posts";
 
 const Post = ({ post, setPostID }) => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
   const handleHorizIconClick = () => {
     setPostID(post._id);
     navigate("/create");
   };
 
   const [imageWidth, setImageWidth] = useState(null);
+  const [loading, setLoading] = useState(false); // State to manage loading animation
 
   const checkImageResolution = (imgSrc) => {
     const img = new Image();
@@ -34,30 +38,56 @@ const Post = ({ post, setPostID }) => {
     }
   }, [post.selectedFile]);
 
+  const handleLike = async () => {
+    if (!user?.result) {
+      alert("Please login to like");
+      return;
+    }
+
+    setLoading(true); // Start loading animation
+
+    try {
+      await dispatch(likePost(post._id));
+    } catch (error) {
+      console.error("Error liking post:", error);
+    } finally {
+      setLoading(false); // Stop loading animation
+    }
+  };
+
   return (
-    <div className="p-4 shadow-md">
-      <div className="post-part-1 flex justify-between mb-1">
+    <div className="p-4 shadow-md w-full bg-white dark:bg-gray-800 rounded-lg">
+      <div className="post-part-1 flex text-xs sm:text-lg items-center justify-between mb-1">
         <div className="flex">
-          <p className="text-post-darker">{post.name} &nbsp;</p>
-          <p className="text-post-darker">
-            {" "}
+          <p className="text-post-darker dark:text-gray-400">
+            {post.name} &nbsp;
+          </p>
+          <p className="text-post-darker dark:text-gray-400">
             • {moment(post.createdAt).tz("Asia/Kolkata").fromNow()}
           </p>
         </div>
-        <Button
-          style={{ color: "gray" }}
-          size="small"
-          onClick={handleHorizIconClick}
-        >
-          <MoreHorizIcon fontSize="medium" />
-        </Button>
+        {(user?.result?.sub === post?.creator ||
+          user?.result?._id === post?.creator) && (
+          <Button
+            style={{ color: "gray" }}
+            size="small"
+            onClick={handleHorizIconClick}
+          >
+            <MoreHorizIcon fontSize="medium" />
+          </Button>
+        )}
       </div>
-      <div className="post-part-2 mb-1">
-        <div className="flex justify-between">
-          <h1 className={styles.titleText}>{post.title}</h1>
-          <p className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</p>
+      <div className="post-part-2 text-sm mb-1">
+        <div className="flex justify-between flex-col sm:flex-row">
+          <h1 className={`${styles.titleText} dark:text-white`}>
+            {post.title}
+          </h1>
+          <p className={`${styles.tag} w-auto`}>
+            {post.tags.map((tag) => `#${tag} `)}
+          </p>
         </div>
         <div
+          className="text-black dark:text-gray-300"
           dangerouslySetInnerHTML={{
             __html: post.message.substring(0, 320) + "...",
           }}
@@ -71,7 +101,7 @@ const Post = ({ post, setPostID }) => {
           position: "relative",
           width: "100%",
           height: "auto",
-          overflow: "hidden", //Hides the blur effect that crawls ot of div.
+          overflow: "hidden",
         }}
       >
         {imageWidth < 600 && (
@@ -112,29 +142,43 @@ const Post = ({ post, setPostID }) => {
             alignItems: "center",
             gap: "5px",
           }}
-          onClick={() => {
-            dispatch(likePost(post._id));
-          }}
+          onClick={handleLike}
+          disabled={!user?.result || loading} // Disable button when user is not logged in or loading is true
         >
-          <ThumbUpAltIcon fontSize="small" />
-          <p>{post.likeCount}</p>
+          {loading ? ( // Show CircularProgress while loading
+            <CircularProgress size={20} color="inherit" />
+          ) : post.likes.length > 0 ? (
+            post.likes.find(
+              (like) => like === (user?.result?.sub || user?.result?._id)
+            ) ? (
+              <FavoriteIcon style={{ color: "#ff4949" }} fontSize="small" />
+            ) : (
+              <FavoriteBorderIcon fontSize="small" />
+            )
+          ) : (
+            <FavoriteBorderIcon fontSize="small" />
+          )}
+          <p>{post.likes.length}</p>
         </Button>
-        <Button
-          size="small"
-          style={{
-            color: "white",
-            backgroundColor: "#9ca3af",
-            display: "flex",
-            alignItems: "center",
-            gap: "5px",
-          }}
-          onClick={() => {
-            dispatch(deletePost(post._id));
-          }}
-        >
-          <DeleteIcon fontSize="small" />
-          Delete
-        </Button>
+        {(user?.result?.sub === post?.creator ||
+          user?.result?._id === post?.creator) && (
+          <Button
+            size="small"
+            style={{
+              color: "white",
+              backgroundColor: "#9ca3af",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+            }}
+            onClick={() => {
+              dispatch(deletePost(post._id));
+            }}
+          >
+            <DeleteIcon fontSize="small" />
+            Delete
+          </Button>
+        )}
       </div>
     </div>
   );

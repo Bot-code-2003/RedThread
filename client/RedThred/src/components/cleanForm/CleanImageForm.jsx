@@ -65,7 +65,9 @@ const CleanImageForm = () => {
           placeholder="Tags"
           name="tags"
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
 
         <div className="p-2 mb-4">
