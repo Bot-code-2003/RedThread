@@ -143,7 +143,7 @@ const Post = ({ post, setPostID }) => {
             gap: "5px",
           }}
           onClick={handleLike}
-          disabled={!user?.result || loading} // Disable button when user is not logged in or loading is true
+          disabled={loading} // Disable button when user is not logged in or loading is true
         >
           {loading ? ( // Show CircularProgress while loading
             <CircularProgress size={20} color="inherit" />

@@ -67,8 +67,10 @@ const Navbar = () => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     const decodedData = user?.token;
-    if (decodedData.exp * 1000 < new Date().getTime()) {
-      logout();
+    if (decodedData) {
+      if (decodedData.exp * 1000 < new Date().getTime()) {
+        logout();
+      }
     }
   }, []);
 

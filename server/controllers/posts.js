@@ -3,7 +3,9 @@ import PostMessage from "../models/postMessage.js";
 
 export const getPosts = async (req, res) => {
   try {
-    const postMessages = await PostMessage.find();
+    const postMessages = await PostMessage.find()
+      .sort({ createdAt: -1 })
+      .limit(4); // 4 most recent posts
     res.status(200).send(postMessages);
   } catch (error) {
     res.status(404).send({ message: error.message });

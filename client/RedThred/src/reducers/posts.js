@@ -1,9 +1,9 @@
 export default (posts = [], action) => {
   switch (action.type) {
     case "FETCH_ALL":
-      return action.payload;
+      return [...posts, ...action.payload];
     case "CREATE":
-      return [...posts, action.payload];
+      return [action.payload, ...posts];
     case "UPDATE":
     case "LIKE":
       return posts.map((post) =>
