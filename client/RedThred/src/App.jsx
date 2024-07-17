@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SectionWrapper from "./hoc/SectionWrapper";
-import { Grid, CircularProgress } from "@mui/material";
+import { Grid } from "@mui/material";
 import CleanForm from "./components/cleanForm/CleanForm";
 import Form from "./components/Form/Form";
 import Posts from "./components/Posts/Posts";
@@ -17,10 +17,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts());
-    setPostID(null);
+    const fetchData = async () => {
+      setLoading(true);
+      await dispatch(getPosts(page)); // Pass the page parameter
+      setLoading(false);
+    };
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
 
   const handleScroll = () => {
     if (
@@ -38,24 +42,7 @@ const App = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(getPosts());
-        setLoading(false); // Stop loading animation after data is fetched
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setLoading(false); // Ensure loading state is reset on error
-      }
-    };
-
-    if (page > 1) {
-      fetchData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [loading]);
 
   return (
     <div>

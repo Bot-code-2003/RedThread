@@ -1,7 +1,7 @@
 export default (posts = [], action) => {
   switch (action.type) {
     case "FETCH_ALL":
-      return [...posts, ...action.payload];
+      return [...posts, ...action.payload.data]; // Append new posts to existing ones
     case "CREATE":
       return [action.payload, ...posts];
     case "UPDATE":
