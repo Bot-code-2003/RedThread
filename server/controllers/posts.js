@@ -5,7 +5,7 @@ export const getPosts = async (req, res) => {
   const { page } = req.params;
 
   const LIMIT = 4;
-  const startIndex = (Number(page) - 1) * LIMIT;
+  const startIndex = (Number(page) - 1) * LIMIT; //0, 4, 8... indexes
 
   try {
     const total = await PostMessage.countDocuments({});
@@ -13,7 +13,7 @@ export const getPosts = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(startIndex)
       .limit(LIMIT);
-
+    console.log("totalPages: ", Math.ceil(total / LIMIT));
     res.status(200).send({
       data: posts,
       currentPage: Number(page),

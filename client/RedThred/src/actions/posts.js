@@ -2,12 +2,20 @@ import * as api from "../api";
 
 export const getPosts = (page) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPosts(page); // send the page no.
-    dispatch({ type: "FETCH_ALL", payload: data });
+    const { data } = await api.fetchPosts(page); // send the page no. Contains currentPage, totalPages, data
+    if (data.currentPage <= data.totalPages) {
+      dispatch({ type: "FETCH_ALL", payload: data });
+      return data; // Return the data for further use
+    } else {
+      console.log("No more posts");
+      return null; // No more posts
+    }
   } catch (error) {
     console.log(error);
+    return null; // Return null in case of an error
   }
 };
+
 export const createPost = (post) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post);

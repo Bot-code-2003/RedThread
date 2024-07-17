@@ -14,13 +14,17 @@ const App = () => {
   const [postID, setPostID] = useState(null);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      await dispatch(getPosts(page)); // Pass the page parameter
+      const data = await dispatch(getPosts(page)); // Pass the page parameter
       setLoading(false);
+      if (data) {
+        setTotalPages(data.totalPages); // Update total pages state
+      }
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -30,11 +34,12 @@ const App = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.scrollHeight - 50 &&
-      !loading
+      !loading &&
+      page < totalPages
     ) {
       setLoading(true); // Start loading animation
       setTimeout(() => {
-        setPage((prevPage) => prevPage + 1);
+        setPage((prevPage) => prevPage + 1); // Increment page
       }, 2000); // Simulate fetch delay
     }
   };
@@ -42,7 +47,7 @@ const App = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading]);
+  }, [loading, page, totalPages]);
 
   return (
     <div>
