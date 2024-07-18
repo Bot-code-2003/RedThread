@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/posts";
 import { Routes, Route } from "react-router-dom";
 import Auth from "./Auth/Auth";
-import PostSkeleton from "./components/PostSkeleton"; // Import PostSkeleton component
+import PostSkeleton from "./components/PostSkeleton";
 
 const App = () => {
   const [postID, setPostID] = useState(null);
@@ -18,6 +18,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Fetch data according to the page.
     const fetchData = async () => {
       setLoading(true);
       const data = await dispatch(getPosts(page)); // Pass the page parameter
@@ -31,6 +32,7 @@ const App = () => {
   }, [page]);
 
   const handleScroll = () => {
+    // When user scrolls to the bottom of the page it updates page resulting in above useEffect()
     if (
       window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.scrollHeight - 50 &&
