@@ -4,9 +4,11 @@ import { Grid, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import PostSkeleton from "../PostSkeleton";
 
-const Posts = ({ setPostID }) => {
-  const posts = useSelector((state) => state.posts);
-  // console.log("posts: ", posts);
+const Posts = ({ setPostID, isSearched }) => {
+  const posts = useSelector((state) =>
+    isSearched ? state.posts.searchResults : state.posts.allPosts
+  );
+  console.log("posts: ", posts);
   return !posts.length ? (
     <PostSkeleton />
   ) : (

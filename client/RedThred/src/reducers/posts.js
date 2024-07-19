@@ -1,21 +1,43 @@
-export default (posts = [], action) => {
+const initialState = {
+  allPosts: [],
+  searchResults: [],
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case "FETCH_ALL":
       const newPosts = action.payload.data.filter(
-        (newPost) => !posts.some((post) => post._id === newPost._id)
-        //The some() method checks if at least one element in the array (posts) satisfies the condition provided by the callback function.
+        (newPost) => !state.allPosts.some((post) => post._id === newPost._id)
       );
-      return [...posts, ...newPosts]; // Append new unique posts to existing ones
+      return {
+        ...state,
+        allPosts: [...state.allPosts, ...newPosts],
+      };
+    case "FETCH_BY_SEARCH":
+      console.log("Reducer fetch_by_search: ", action.payload.data);
+      return {
+        ...state,
+        searchResults: action.payload.data || [],
+      };
     case "CREATE":
-      return [action.payload, ...posts];
+      return {
+        ...state,
+        allPosts: [action.payload, ...state.allPosts],
+      };
     case "UPDATE":
     case "LIKE":
-      return posts.map((post) =>
-        post._id === action.payload._id ? action.payload : post
-      );
+      return {
+        ...state,
+        allPosts: state.allPosts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+      };
     case "DELETE":
-      return posts.filter((post) => post._id !== action.payload);
+      return {
+        ...state,
+        allPosts: state.allPosts.filter((post) => post._id !== action.payload),
+      };
     default:
-      return posts;
+      return state;
   }
 };

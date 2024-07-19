@@ -60,7 +60,13 @@ const Navbar = () => {
 
   const handleSearch = (e) => {
     if (e.key === "Enter") {
-      console.log(searchValue);
+      if (searchValue.trim()) {
+        console.log(searchValue);
+        setSearchValue("");
+        navigate(`/search?query=${searchValue}`);
+      } else {
+        navigate("/");
+      }
     }
   };
 
@@ -113,6 +119,7 @@ const Navbar = () => {
         <input
           type="text"
           placeholder="Search RedThread"
+          value={searchValue}
           style={{
             // border: "1px solid black",
             width: "100%",

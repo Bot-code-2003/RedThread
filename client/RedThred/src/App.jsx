@@ -9,6 +9,7 @@ import { getPosts } from "./actions/posts";
 import { Routes, Route } from "react-router-dom";
 import Auth from "./Auth/Auth";
 import PostSkeleton from "./components/PostSkeleton";
+import SearchResults from "./components/SearchResults";
 
 const App = () => {
   const [postID, setPostID] = useState(null);
@@ -61,6 +62,19 @@ const App = () => {
               <Grid item xs={12} sm={12} md={6} lg={6}>
                 <Posts setPostID={setPostID} />
                 {loading && <PostSkeleton />}{" "}
+              </Grid>
+            </Grid>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <Grid container>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <SearchResults />
+                {loading && (
+                  <PostSkeleton postID={postID} setPostID={setPostID} />
+                )}{" "}
               </Grid>
             </Grid>
           }
