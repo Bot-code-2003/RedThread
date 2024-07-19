@@ -93,7 +93,9 @@ const Post = ({ post, setPostID }) => {
       <div className="post-part-2 text-sm mb-1">
         <div className="flex justify-between flex-col sm:flex-row">
           <Link onClick={handleLinkClick}>
-            <h1 className={`${styles.titleText} dark:text-white`}>
+            <h1
+              className={`${styles.titleText} hover:underline dark:text-white`}
+            >
               {post.title}
             </h1>
           </Link>
@@ -104,7 +106,9 @@ const Post = ({ post, setPostID }) => {
         <div
           className="text-black dark:text-gray-300"
           dangerouslySetInnerHTML={{
-            __html: post.message.substring(0, 320) + "...",
+            __html: post?.message
+              ? DOMPurify.sanitize(post.message.substring(0, 320) + "...")
+              : "",
           }}
         />
       </div>

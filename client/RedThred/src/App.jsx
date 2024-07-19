@@ -64,7 +64,14 @@ const App = () => {
             <Grid container>
               <Grid item xs={12} sm={12} md={6} lg={6}>
                 <Posts setPostID={setPostID} />
-                {loading && <PostSkeleton />}{" "}
+                {loading && (
+                  <>
+                    <PostSkeleton />
+                    <PostSkeleton />
+                    <PostSkeleton />
+                    <PostSkeleton />
+                  </>
+                )}{" "}
               </Grid>
             </Grid>
           }
@@ -76,7 +83,12 @@ const App = () => {
               <Grid item xs={12} sm={12} md={6} lg={6}>
                 <SearchResults setPostID={setPostID} />
                 {loading && (
-                  <PostSkeleton postID={postID} setPostID={setPostID} />
+                  <>
+                    <PostSkeleton />
+                    <PostSkeleton />
+                    <PostSkeleton />
+                    <PostSkeleton />
+                  </>
                 )}{" "}
               </Grid>
             </Grid>

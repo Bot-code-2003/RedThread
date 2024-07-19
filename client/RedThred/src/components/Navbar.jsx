@@ -158,7 +158,7 @@ const Navbar = () => {
               )}
             </button>
             {userClick && (
-              <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 border rounded shadow-lg p-3">
+              <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 border rounded shadow-lg p-3 z-10">
                 <button className="block w-full px-4 py-2 text-left text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
                   {user?.result?.name}
                 </button>
