@@ -8,6 +8,8 @@ const Posts = ({ setPostID, isSearched }) => {
   const posts = useSelector((state) =>
     isSearched ? state.posts.searchResults : state.posts.allPosts
   );
+
+  console.log("isSearched: ", isSearched);
   console.log("posts: ", posts);
   return !posts.length ? (
     <PostSkeleton />

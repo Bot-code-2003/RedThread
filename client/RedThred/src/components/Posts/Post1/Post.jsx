@@ -7,9 +7,9 @@ import moment from "moment-timezone";
 import React, { useState, useEffect } from "react";
 import { Button, CircularProgress } from "@mui/material"; // Import CircularProgress for loading animation
 import { styles } from "../../../styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deletePost, likePost } from "../../../actions/posts";
+import { deletePost, likePost, getPost } from "../../../actions/posts";
 
 const Post = ({ post, setPostID }) => {
   const dispatch = useDispatch();
@@ -17,9 +17,22 @@ const Post = ({ post, setPostID }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleHorizIconClick = () => {
+    console.log("handleHorizIconClick", post._id);
+    console.log("edit clicked");
     setPostID(post._id);
     navigate("/create");
   };
+
+  const handleLinkClick = async (e) => {
+    e.preventDefault();
+
+    // const postDetail = await dispatch(getPost(post._id));
+    // console.log("postDetail: ", postDetail);
+    //nav to postDetail component
+
+    navigate(`/postDetails/${post._id}`);
+  };
+  // console.log("Post.jsx: ", post);
 
   const [imageWidth, setImageWidth] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading animation
@@ -79,9 +92,11 @@ const Post = ({ post, setPostID }) => {
       </div>
       <div className="post-part-2 text-sm mb-1">
         <div className="flex justify-between flex-col sm:flex-row">
-          <h1 className={`${styles.titleText} dark:text-white`}>
-            {post.title}
-          </h1>
+          <Link onClick={handleLinkClick}>
+            <h1 className={`${styles.titleText} dark:text-white`}>
+              {post.title}
+            </h1>
+          </Link>
           <p className={`${styles.tag} w-auto`}>
             {post.tags.map((tag) => `#${tag} `)}
           </p>

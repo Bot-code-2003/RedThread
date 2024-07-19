@@ -4,9 +4,13 @@ import ImageForm from "./ImageForm";
 import { useSelector } from "react-redux";
 
 const Form = ({ postID, setPostID }) => {
+  console.log("postID: ", postID);
   const post = useSelector((state) =>
-    state.posts.find((post) => post._id === postID)
+    // console.log("state: ", state),
+    // console.log("state.posts: ", state.posts),
+    state.posts.allPosts.find((post) => post._id === postID)
   );
+  console.log("post: ", post);
 
   const [textForm, setTextForm] = useState(post.selectedFile ? false : true);
   const [imageForm, setImageForm] = useState(post.selectedFile ? true : false);

@@ -13,7 +13,7 @@ export const getPosts = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(startIndex)
       .limit(LIMIT);
-    console.log("totalPages: ", Math.ceil(total / LIMIT));
+    // console.log("totalPages: ", Math.ceil(total / LIMIT));
     res.status(200).send({
       data: posts,
       currentPage: Number(page),
@@ -21,6 +21,21 @@ export const getPosts = async (req, res) => {
     });
   } catch (error) {
     res.status(404).send({ message: error.message });
+  }
+};
+
+// controllers/posts.js or similar
+export const getPost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // const { id } = req.params;
+    console.log("id: ", id);
+    const post = await PostMessage.findById(id);
+    // Fetch the post logic here
+    res.status(200).json(post);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 

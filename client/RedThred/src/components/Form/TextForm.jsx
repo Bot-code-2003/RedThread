@@ -13,7 +13,7 @@ const TextForm = ({ postID, setPostID }) => {
   const dispatch = useDispatch();
 
   const post = useSelector((state) =>
-    postID ? state.posts.find((post) => post._id === postID) : null
+    postID ? state.posts.allPosts.find((post) => post._id === postID) : null
   );
 
   const [postData, setPostData] = useState({

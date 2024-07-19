@@ -14,6 +14,8 @@ API.interceptors.request.use((req) => {
 // const url = "http://localhost:5000/posts";
 
 export const fetchPosts = (page) => API.get(`/posts/${page}`); // send the page no. get data,currentPage, totalpages
+
+export const fetchPost = (id) => API.get(`/posts/details/${id}`);
 export const fetchPostBySearch = (searchQuery) =>
   API.get(`/posts/search?searchQuery=${searchQuery || "none"}`);
 export const createPost = (newPost) => API.post("/posts", newPost);

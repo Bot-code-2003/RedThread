@@ -10,6 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import Auth from "./Auth/Auth";
 import PostSkeleton from "./components/PostSkeleton";
 import SearchResults from "./components/SearchResults";
+import PostDetails from "./components/PostDetails";
 
 const App = () => {
   const [postID, setPostID] = useState(null);
@@ -17,6 +18,8 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const dispatch = useDispatch();
+
+  // console.log("postID:(App.jsx)-> ", postID);
 
   useEffect(() => {
     // Fetch data according to the page.
@@ -71,7 +74,7 @@ const App = () => {
           element={
             <Grid container>
               <Grid item xs={12} sm={12} md={6} lg={6}>
-                <SearchResults />
+                <SearchResults setPostID={setPostID} />
                 {loading && (
                   <PostSkeleton postID={postID} setPostID={setPostID} />
                 )}{" "}
@@ -79,6 +82,7 @@ const App = () => {
             </Grid>
           }
         />
+        <Route path="/postDetails/:id" element={<PostDetails />} />
         <Route
           path="/create"
           element={<Form postID={postID} setPostID={setPostID} />}
