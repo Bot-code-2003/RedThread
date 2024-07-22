@@ -14,7 +14,6 @@ export default (state = initialState, action) => {
         allPosts: [...state.allPosts, ...newPosts],
       };
     case "FETCH_BY_SEARCH":
-      console.log("Reducer fetch_by_search: ", action.payload.data);
       return {
         ...state,
         searchResults: action.payload.data || [],

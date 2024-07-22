@@ -1,21 +1,30 @@
 import * as api from "../api";
 
+/**
+ * Gets all the posts from the server as per limit of 4
+ * @param {number} page - The page number to fetch
+ * @returns {object} - Contains total pages and posts.
+ */
 export const getPosts = (page) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPosts(page); // send the page no. Contains currentPage, totalPages, data
-    if (data.currentPage <= data.totalPages) {
+    const { data } = await api.fetchPosts(page);
+    if (page <= data.totalPages) {
       dispatch({ type: "FETCH_ALL", payload: data });
-      return data; // Return the data for further use
+      return data;
     } else {
-      console.log("No more posts");
-      return null; // No more posts
+      return null;
     }
   } catch (error) {
     console.log(error);
-    return null; // Return null in case of an error
+    return null;
   }
 };
 
+/**
+ *
+ * @param {string} id
+ * @returns
+ */
 export const getPost = (id) => async (dispatch) => {
   try {
     const { data } = await api.fetchPost(id);
@@ -28,7 +37,6 @@ export const getPost = (id) => async (dispatch) => {
 export const getPostBySearch = (searchQuery) => async (dispatch) => {
   try {
     const { data } = await api.fetchPostBySearch(searchQuery);
-    // console.log("data (getPostBySearch): ", data.data);
     dispatch({ type: "FETCH_BY_SEARCH", payload: data });
   } catch (error) {
     console.log(error);
@@ -62,9 +70,15 @@ export const updatePost = (id, post) => async (dispatch) => {
   }
 };
 
+/**
+ * Deletes a post with the given ID.
+ *
+ * @param {string} id - The ID of the post to delete.
+ * @returns {Function} - A function that performs the deletion and dispatches an action.
+ */
 export const deletePost = (id) => async (dispatch) => {
   try {
-    api.deletePost(id);
+    await api.deletePost(id);
     const action = {
       type: "DELETE",
       payload: id,
@@ -75,8 +89,19 @@ export const deletePost = (id) => async (dispatch) => {
   }
 };
 
+/**
+ * Likes a post with the given ID.
+ *
+ * @param {string} id - The ID of the post to be liked.
+ * @returns {Function} - A function that dispatches an action with the updated post data.
+ */
 export const likePost = (id) => async (dispatch) => {
   try {
+    /**
+     * The response data containing the updated post.
+     * @type {object}
+     * @property {object} data - The updated post data.
+     */
     const { data } = await api.likePost(id);
     const action = {
       type: "LIKE",

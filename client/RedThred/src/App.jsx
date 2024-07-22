@@ -1,3 +1,7 @@
+/**
+ * App component - Responsible for the main layout of the application.
+ */
+
 import React, { useEffect, useState } from "react";
 import SectionWrapper from "./hoc/SectionWrapper";
 import { Grid } from "@mui/material";
@@ -19,8 +23,6 @@ const App = () => {
   const [totalPages, setTotalPages] = useState(0);
   const dispatch = useDispatch();
 
-  // console.log("postID:(App.jsx)-> ", postID);
-
   useEffect(() => {
     // Fetch data according to the page.
     const fetchData = async () => {
@@ -32,28 +34,28 @@ const App = () => {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
+  /** scroll useEffect */
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading, page]);
+
   const handleScroll = () => {
-    // When user scrolls to the bottom of the page it updates page resulting in above useEffect()
+    // When user scrolls to the bottom of the page it updates page thereby resulting in above useEffect()
     if (
       window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.scrollHeight - 50 &&
       !loading &&
       page < totalPages
     ) {
-      setLoading(true); // Start loading animation
+      setLoading(true); // Trigger scroll useEffect
       setTimeout(() => {
         setPage((prevPage) => prevPage + 1); // Increment page
-      }, 2000); // Simulate fetch delay
+      }, 2000);
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading, page, totalPages]);
 
   return (
     <div>
@@ -63,7 +65,8 @@ const App = () => {
           element={
             <Grid container>
               <Grid item xs={12} sm={12} md={6} lg={6}>
-                <Posts setPostID={setPostID} />
+                <Posts setPostID={setPostID} />{" "}
+                {/**postID from here is used in Form */}
                 {loading && (
                   <>
                     <PostSkeleton />

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import redthread from "../images/RED.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
@@ -8,32 +7,31 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import ContrastOutlinedIcon from "@mui/icons-material/ContrastOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-// import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+
 import HamMenu from "./HamMenu";
+import redthread from "../images/RED.png";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
-  const [userClick, setUserClick] = useState(false); // To open user dropdown
+  const [userClick, setUserClick] = useState(false); // To open userProfile dropdown.
   const [showAppearanceOptions, setShowAppearanceOptions] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const menuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Retrieve user data from local storage when component mounts
-    const storedUser = JSON.parse(localStorage.getItem("profile"));
+    const storedUser = JSON.parse(localStorage.getItem("profile")); // result and token.
     if (storedUser) {
       setUser(storedUser);
     }
   }, []);
 
   useEffect(() => {
-    // Update user data when location changes (e.g., after login or logout)
     const storedUser = JSON.parse(localStorage.getItem("profile"));
     setUser(storedUser);
 
-    // Set theme from local storage
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       document.documentElement.classList.add(savedTheme);
@@ -61,7 +59,6 @@ const Navbar = () => {
   const handleSearch = (e) => {
     if (e.key === "Enter") {
       if (searchValue.trim()) {
-        console.log(searchValue);
         setSearchValue("");
         navigate(`/search?query=${searchValue}`);
       } else {
@@ -91,7 +88,6 @@ const Navbar = () => {
     }
   };
 
-  const menuRef = useRef(null);
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setUserClick(false);
@@ -114,17 +110,15 @@ const Navbar = () => {
         className="max-h-[30px] hover:cursor-pointer"
         onClick={() => navigate("/")}
       />
-      <div className="bg-white w-[60%] border-2 border-gray-300 flex gap-2 p-2 rounded-md items-center justify-center">
+      <div className="hidden sm:flex bg-white dark:bg-black w-[60%] border-2 border-gray-300 dark:border-gray-600 gap-2 p-2 rounded-md items-center justify-center">
         <SearchIcon style={{ color: "gray" }} />
         <input
+          className="dark:bg-black"
           type="text"
           placeholder="Search RedThread"
           value={searchValue}
           style={{
-            // border: "1px solid black",
             width: "100%",
-            // padding: "5px",
-            // borderRadius: "5px",
             outline: "none",
           }}
           onChange={(e) => setSearchValue(e.target.value)}

@@ -20,7 +20,7 @@ export const signin = async (req, res) => {
         email: existingUser.email,
         id: existingUser._id,
       },
-      "test",
+      "test", //secret
       { expiresIn: "1h" }
     );
 

@@ -4,7 +4,7 @@
 
 /* Custom global styles */
 body {
-  @apply text-gray-900 font-sans;
+  @apply text-gray-900 dark:bg-gray-900 font-sans;
 }
 
 header {

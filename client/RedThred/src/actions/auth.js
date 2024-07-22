@@ -1,8 +1,12 @@
 import * as api from "../api";
 
+/**
+ * @param {object} formData
+ * @param {function} navigate
+ * @returns null
+ */
 export const signin = (formData, navigate) => async (dispatch) => {
   try {
-    //login user
     const { data } = await api.signIn(formData);
     const action = {
       type: "AUTH",
@@ -16,11 +20,14 @@ export const signin = (formData, navigate) => async (dispatch) => {
   }
 };
 
+/**
+ * @param {object} formData
+ * @param {function} navigate
+ * @returns null
+ */
 export const signup = (formData, navigate) => async (dispatch) => {
   try {
-    //signup user
-    const { data } = await api.signUp(formData);
-    console.log("Action-auth: ", data);
+    const { data } = await api.signUp(formData); /**returns { result, token } */
     const action = {
       type: "AUTH",
       payload: data,

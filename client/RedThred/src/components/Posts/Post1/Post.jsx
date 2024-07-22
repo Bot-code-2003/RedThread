@@ -1,15 +1,15 @@
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import React, { useState, useEffect } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment-timezone";
-import React, { useState, useEffect } from "react";
-import { Button, CircularProgress } from "@mui/material"; // Import CircularProgress for loading animation
-import { styles } from "../../../styles";
+import { Button, CircularProgress } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deletePost, likePost, getPost } from "../../../actions/posts";
+
+import { styles } from "../../../styles";
+import { deletePost, likePost } from "../../../actions/posts";
 
 const Post = ({ post, setPostID }) => {
   const dispatch = useDispatch();
@@ -18,24 +18,18 @@ const Post = ({ post, setPostID }) => {
 
   const handleHorizIconClick = () => {
     console.log("handleHorizIconClick", post._id);
-    console.log("edit clicked");
     setPostID(post._id);
     navigate("/create");
   };
 
+  // When user clicks on specific post
   const handleLinkClick = async (e) => {
     e.preventDefault();
-
-    // const postDetail = await dispatch(getPost(post._id));
-    // console.log("postDetail: ", postDetail);
-    //nav to postDetail component
-
     navigate(`/postDetails/${post._id}`);
   };
-  // console.log("Post.jsx: ", post);
 
   const [imageWidth, setImageWidth] = useState(null);
-  const [loading, setLoading] = useState(false); // State to manage loading animation
+  const [loading, setLoading] = useState(false);
 
   const checkImageResolution = (imgSrc) => {
     const img = new Image();
@@ -57,14 +51,14 @@ const Post = ({ post, setPostID }) => {
       return;
     }
 
-    setLoading(true); // Start loading animation
+    setLoading(true);
 
     try {
       await dispatch(likePost(post._id));
     } catch (error) {
       console.error("Error liking post:", error);
     } finally {
-      setLoading(false); // Stop loading animation
+      setLoading(false);
     }
   };
 
@@ -107,7 +101,9 @@ const Post = ({ post, setPostID }) => {
           className="text-black dark:text-gray-300"
           dangerouslySetInnerHTML={{
             __html: post?.message
-              ? DOMPurify.sanitize(post.message.substring(0, 320) + "...")
+              ? post.message.length > 320
+                ? post.message.substring(0, 320) + "..."
+                : post.message
               : "",
           }}
         />
@@ -152,19 +148,19 @@ const Post = ({ post, setPostID }) => {
       </div>
 
       <div className="post-part-4 flex gap-2 mb-1">
-        <Button
+        <button
+          className="p-2 rounded px-4 dark:bg-gray-700 bg-gray-300"
           size="small"
           style={{
             color: "white",
-            backgroundColor: "#9ca3af",
             display: "flex",
             alignItems: "center",
             gap: "5px",
           }}
           onClick={handleLike}
-          disabled={loading} // Disable button when user is not logged in or loading is true
+          disabled={loading}
         >
-          {loading ? ( // Show CircularProgress while loading
+          {loading ? (
             <CircularProgress size={20} color="inherit" />
           ) : post.likes.length > 0 ? (
             post.likes.find(
@@ -178,14 +174,14 @@ const Post = ({ post, setPostID }) => {
             <FavoriteBorderIcon fontSize="small" />
           )}
           <p>{post.likes.length}</p>
-        </Button>
+        </button>
         {(user?.result?.sub === post?.creator ||
           user?.result?._id === post?.creator) && (
-          <Button
+          <button
+            className="p-2 rounded px-4 dark:bg-gray-700 bg-gray-300"
             size="small"
             style={{
               color: "white",
-              backgroundColor: "#9ca3af",
               display: "flex",
               alignItems: "center",
               gap: "5px",
@@ -196,7 +192,7 @@ const Post = ({ post, setPostID }) => {
           >
             <DeleteIcon fontSize="small" />
             Delete
-          </Button>
+          </button>
         )}
       </div>
     </div>

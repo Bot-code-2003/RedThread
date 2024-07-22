@@ -1,11 +1,13 @@
 export default (state = { authData: null }, action) => {
   switch (action.type) {
+    /**
+     * Dispatch from actions/auth.js.
+     * @param {object} - contains result, token.
+     * returns {object} - contains authData:{result, token}.
+     */
     case "AUTH":
-      // console.log("In Reducer: ", action?.payload);
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
       return { ...state, authData: action?.payload };
-    // console.log("Displaying from reducer");
-    // console.log(action?.data);
     default:
       return state;
   }

@@ -24,9 +24,6 @@ const PostDetails = () => {
     fetchPostDetails();
   }, [id, dispatch]);
 
-  // console.log("Post ID:", id);
-  // console.log("Post Details:", post);
-
   const checkImageResolution = (imgSrc) => {
     const img = new Image();
     img.onload = () => {
@@ -48,7 +45,7 @@ const PostDetails = () => {
           <div className="p-4 flex flex-col items-center w-full bg-white dark:bg-gray-800 dark:text-white rounded-lg">
             <div className="flex gap-5 items-center mb-3">
               <h2 className="text-4xl">{post.title}</h2>
-              <div className="flex gap-1 items-center">
+              <div className="flex gap-1 items-center border border-gray-500 rounded py-1 px-4 ">
                 {post.likes.length > 0 ? (
                   post.likes.find(
                     (like) => like === (user?.result?.sub || user?.result?._id)
@@ -66,7 +63,13 @@ const PostDetails = () => {
                 <p className="text-xl">{post.likes.length}</p>
               </div>
             </div>
-            <p>{post?.message && post?.message}</p>
+            <div
+              className="text-black dark:text-gray-300"
+              dangerouslySetInnerHTML={{
+                __html: post?.message ? post.message : "",
+              }}
+            />
+
             <div
               className="post-part-3 flex items-center justify-center mb-2"
               style={{
@@ -112,27 +115,7 @@ const PostDetails = () => {
         )}
       </Grid>
       <Grid item lg={2} style={{ border: "1px solid black" }}>
-        <div className="w-full flex gap-5 flex-wrap">
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-          <h1>Test Area</h1>
-        </div>
+        <div className="w-full flex gap-5 flex-wrap"></div>
       </Grid>
     </Grid>
   );

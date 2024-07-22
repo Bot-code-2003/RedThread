@@ -41,14 +41,16 @@ const CleanImageForm = () => {
   // };
 
   return (
-    <div>
+    <div className="dark:bg-gray-800 rounded py-5 shadow-md">
       <form
-        className="shadow-md p-4"
+        className=" p-4"
         onSubmit={handleSubmit}
         autoComplete="off"
         noValidate
       >
-        <h1 className={`${styles.titleText}`}>Weave a Thread</h1>
+        <h1 className={`${styles.titleText} dark:text-white`}>
+          Weave a Thread
+        </h1>
 
         <input
           className={styles.input}
@@ -70,7 +72,7 @@ const CleanImageForm = () => {
           }
         />
 
-        <div className="p-2 mb-4">
+        <div className="p-2 mb-4 dark:text-white">
           <FileBase
             type="file"
             multiple={false}

@@ -13,10 +13,9 @@ export const getPosts = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(startIndex)
       .limit(LIMIT);
-    // console.log("totalPages: ", Math.ceil(total / LIMIT));
+
     res.status(200).send({
       data: posts,
-      currentPage: Number(page),
       totalPages: Math.ceil(total / LIMIT),
     });
   } catch (error) {
@@ -24,14 +23,10 @@ export const getPosts = async (req, res) => {
   }
 };
 
-// controllers/posts.js or similar
 export const getPost = async (req, res) => {
   const { id } = req.params;
   try {
-    // const { id } = req.params;
-    console.log("id: ", id);
     const post = await PostMessage.findById(id);
-    // Fetch the post logic here
     res.status(200).json(post);
   } catch (error) {
     console.log(error);
@@ -41,10 +36,8 @@ export const getPost = async (req, res) => {
 
 export const getPostBySearch = async (req, res) => {
   const { searchQuery } = req.query;
-  console.log("searchQuery: ", searchQuery);
   try {
     const title = new RegExp(searchQuery, "i");
-    // console.log("title: ", title);
     const posts = await PostMessage.find({ title });
     res.json({ data: posts });
   } catch (error) {
@@ -103,21 +96,15 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
   const { id: _id } = req.params;
-
   if (!req.userId) return res.json({ message: "Unauthenticated" });
-
   if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).send("No post with that id");
   try {
     const post = await PostMessage.findById(_id);
     const index = await post.likes.findIndex((id) => id === String(req.userId));
     if (index === -1) {
-      // if user not in likes array then add him
       post.likes.push(req.userId);
-      console.log("Like added");
     } else {
-      // if user already in likes array then remove him
-      console.log("Like removed");
       post.likes = post.likes.filter((id) => id !== String(req.userId)); //remember filter returns an array.
     }
     const updatePost = await PostMessage.findByIdAndUpdate(_id, post, {

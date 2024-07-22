@@ -1,4 +1,6 @@
-import * as React from "react";
+/** Auth component - Responsible for login and signup */
+
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,20 +15,17 @@ import Container from "@mui/material/Container";
 import { Box, Divider } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { GoogleLogin } from "@react-oauth/google";
 
 import { signup, signin } from "../actions/auth";
-
-import { jwtDecode } from "jwt-decode";
-// import GoogleButton from "./GoogleButton";
-
-import { GoogleLogin } from "@react-oauth/google";
 
 export default function Auth() {
   // let isSignUp = true;
   const dispatch = useDispatch();
-  const [isSignUp, setIsSignUp] = React.useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
-  const [visible, setVisible] = React.useState(false);
 
   const initialData = {
     firstName: "",
@@ -34,8 +33,7 @@ export default function Auth() {
     email: "",
     password: "",
   };
-
-  const [formData, setFormData] = React.useState(initialData);
+  const [formData, setFormData] = useState(initialData);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -43,7 +41,6 @@ export default function Auth() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(formData);
     if (isSignUp) {
       dispatch(signup(formData, navigate));
     } else {
@@ -83,10 +80,12 @@ export default function Auth() {
           {isSignUp ? "Sign up" : "Log in"}
         </Typography>
 
-        {/* Google OAuth */}
+        {/**
+         * Google Login
+         * returns {object} - Contains credential, clientId, selected_by.
+         */}
         <GoogleLogin
           onSuccess={(credentialResponse) => {
-            // console.log(credentialResponse);
             const result = jwtDecode(credentialResponse?.credential);
             const token = credentialResponse?.credential;
             try {
@@ -122,6 +121,7 @@ export default function Auth() {
               <>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    className="dark:text-white"
                     autoComplete="given-name"
                     name="firstName"
                     required
