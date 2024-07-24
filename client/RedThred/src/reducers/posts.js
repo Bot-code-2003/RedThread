@@ -1,6 +1,7 @@
 const initialState = {
   allPosts: [],
   searchResults: [],
+  recommendedPosts: [],
 };
 
 export default (state = initialState, action) => {
@@ -14,9 +15,11 @@ export default (state = initialState, action) => {
         allPosts: [...state.allPosts, ...newPosts],
       };
     case "FETCH_BY_SEARCH":
+      // console.log("Reducer searching action: ", );
       return {
         ...state,
         searchResults: action.payload.data || [],
+        recommendedPosts: action.payload.recommendedPosts || [],
       };
     case "CREATE":
       return {

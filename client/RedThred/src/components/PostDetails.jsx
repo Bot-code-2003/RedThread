@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPost } from "../actions/posts";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Grid } from "@mui/material";
 import PostSkeleton from "./PostSkeleton";
+import { useNavigate, Link } from "react-router-dom";
+import { getPostBySearch } from "../actions/posts";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -13,6 +15,12 @@ const PostDetails = () => {
   const [post, setPost] = useState(null);
   const [imageWidth, setImageWidth] = useState(null);
   const user = JSON.parse(localStorage.getItem("profile"));
+  const navigate = useNavigate();
+  const recommendedPosts = useSelector((state) => state.posts.recommendedPosts);
+
+  useEffect(() => {
+    dispatch(getPostBySearch(post?.title));
+  }, [post?.title, dispatch]);
 
   useEffect(() => {
     const fetchPostDetails = async () => {
@@ -42,7 +50,7 @@ const PostDetails = () => {
     <Grid container spacing={2}>
       <Grid item xs={12} lg={10}>
         {post ? (
-          <div className="p-4 flex flex-col items-center w-full bg-white dark:bg-gray-800 dark:text-white rounded-lg">
+          <div className="p-4 flex flex-col items-center w-full bg-white dark:bg-transparent dark:text-white rounded-lg">
             <div className="flex gap-5 items-center mb-3">
               <h2 className="text-4xl">{post.title}</h2>
               <div className="flex gap-1 items-center border border-gray-500 rounded py-1 px-4 ">
@@ -115,7 +123,20 @@ const PostDetails = () => {
         )}
       </Grid>
       <Grid item lg={2} style={{ border: "1px solid black" }}>
-        <div className="w-full flex gap-5 flex-wrap"></div>
+        <div className="w-full flex gap-5 flex-wrap item-center">
+          <h1 className="underline">Recommended Posts</h1>
+
+          {recommendedPosts?.map((post) => (
+            <Link
+              key={post._id}
+              onClick={(e) => (
+                e.preventDefault(), navigate(`/postDetails/${post._id}`)
+              )}
+            >
+              <h3 className="hover:underline">{post.title}</h3>
+            </Link>
+          ))}
+        </div>
       </Grid>
     </Grid>
   );

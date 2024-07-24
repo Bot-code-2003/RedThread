@@ -39,7 +39,19 @@ export const getPostBySearch = async (req, res) => {
   try {
     const title = new RegExp(searchQuery, "i");
     const posts = await PostMessage.find({ title });
-    res.json({ data: posts });
+
+    // Extract unique tags from the found posts
+    const tags = [...new Set(posts.flatMap((post) => post.tags))];
+
+    // Find recommended posts based on tags
+    const recommendedPosts = await PostMessage.find({ tags: { $in: tags } });
+
+    // Optionally filter out the original posts from the recommended ones
+    const recommendedFiltered = recommendedPosts.filter(
+      (recPost) => !posts.some((post) => post._id.equals(recPost._id))
+    );
+
+    res.json({ data: posts, recommendedPosts: recommendedFiltered });
   } catch (error) {
     res.status(404).send({ message: error.message });
   }

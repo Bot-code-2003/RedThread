@@ -8,6 +8,7 @@ import ContrastOutlinedIcon from "@mui/icons-material/ContrastOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import { jwtDecode } from "jwt-decode";
 
 import HamMenu from "./HamMenu";
 import redthread from "../images/RED.png";
@@ -25,6 +26,14 @@ const Navbar = () => {
     const storedUser = JSON.parse(localStorage.getItem("profile")); // result and token.
     if (storedUser) {
       setUser(storedUser);
+    }
+    const token = user?.token;
+    // console.log("Token: ", token);
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        logout();
+      }
     }
   }, []);
 

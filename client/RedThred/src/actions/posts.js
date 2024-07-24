@@ -37,7 +37,10 @@ export const getPost = (id) => async (dispatch) => {
 export const getPostBySearch = (searchQuery) => async (dispatch) => {
   try {
     const { data } = await api.fetchPostBySearch(searchQuery);
-    dispatch({ type: "FETCH_BY_SEARCH", payload: data });
+    dispatch({
+      type: "FETCH_BY_SEARCH",
+      payload: { data: data.data, recommendedPosts: data.recommendedPosts },
+    });
   } catch (error) {
     console.log(error);
   }
