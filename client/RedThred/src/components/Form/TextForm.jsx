@@ -3,7 +3,6 @@ import { styles } from "../../styles";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
 import { useNavigate } from "react-router-dom";
-
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -16,6 +15,8 @@ const TextForm = ({ postID, setPostID }) => {
     postID ? state.posts.allPosts.find((post) => post._id === postID) : null
   );
 
+  // console.log("post:", post);
+
   const [postData, setPostData] = useState({
     title: "",
     message: "",
@@ -24,20 +25,39 @@ const TextForm = ({ postID, setPostID }) => {
   });
 
   useEffect(() => {
-    if (post) setPostData(post);
+    if (post) {
+      // console.log("Post received in useEffect:", post);
+      setPostData({
+        title: post.title || "",
+        message: post.message || "",
+        tags: post.tags || "",
+        selectedFile: post.selectedFile || "",
+      });
+    }
   }, [post]);
+
+  // console.log("postData before form submit:", postData);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setPostData({ ...postData, [name]: value });
+    // console.log("Input change:", name, value); // Debugging input changes
+    setPostData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleQuillChange = (value) => {
-    setPostData({ ...postData, message: value });
+    // console.log("Quill change:", value); // Debugging Quill editor changes
+    setPostData((prevState) => ({
+      ...prevState,
+      message: value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log("Handling submit with postData:", postData); // Debugging form submission
     if (postID) {
       dispatch(updatePost(postID, { ...postData, name: user?.result?.name }));
     } else {

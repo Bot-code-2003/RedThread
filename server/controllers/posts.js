@@ -43,7 +43,7 @@ export const getPostBySearch = async (req, res) => {
     // Extract unique tags from the found posts
     const tags = [...new Set(posts.flatMap((post) => post.tags))];
 
-    // Find recommended posts based on tags
+    // Find recommended posts based on tags ||      mongodb       array
     const recommendedPosts = await PostMessage.find({ tags: { $in: tags } });
 
     // Optionally filter out the original posts from the recommended ones

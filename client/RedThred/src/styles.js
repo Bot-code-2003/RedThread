@@ -10,10 +10,12 @@ const styles = {
 
   input:
     "w-full p-2 mb-4 border rounded-sm focus:outline-none focus:ring-1 focus:ring-secondary-dark",
+  input1:
+    "w-full p-3 mb-1 border rounded-sm focus:outline-none focus:ring-1 focus:ring-secondary-dark",
   button:
-    "px-4 py-2 bg-secondary-dark text-white rounded-sm hover:bg-secondary-medium transition-colors duration-150 w-[73%]",
+    "px-4 py-2 bg-secondary-medium text-white rounded-sm hover:bg-secondary-dark transition-colors duration-150 w-[74%]",
   clearButton:
-    "px-4 py-2 bg-primary-dark text-white rounded-sm hover:bg-primary-medium transition-colors duration-150 w-[23%]",
+    "px-4 py-2 bg-primary-medium text-white rounded-sm hover:bg-primary-dark transition-colors duration-150 w-[24%]",
   divider: {
     width: "40%",
     margin: "0 10px",

@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { styles } from "../../styles";
-import { useDispatch, useSelector } from "react-redux";
-import { createPost, updatePost } from "../../actions/posts";
+import { useDispatch } from "react-redux";
+import { createPost } from "../../actions/posts";
 import { useNavigate } from "react-router-dom";
+import FileBase from "react-file-base64";
+import Alert from "@mui/material/Alert";
+import ImageIcon from "@mui/icons-material/Image";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -11,7 +14,9 @@ const CleanTextForm = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [alert, setAlert] = useState(false);
+  const [tagAlert, setTagAlert] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(""); // New state for upload status
   const [postData, setPostData] = useState({
     title: "",
     message: "",
@@ -31,9 +36,19 @@ const CleanTextForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!postData.tags) {
+      setAlert(true);
+      setTagAlert(true);
+      return;
+    }
+
     dispatch(createPost({ ...postData, name: user?.result?.name }));
     clear();
     navigate("/");
+  };
+
+  const handleTagsClick = () => {
+    setAlert(true);
   };
 
   const clear = () => {
@@ -43,6 +58,22 @@ const CleanTextForm = () => {
       tags: "",
       selectedFile: "",
     });
+
+    setTagAlert(false);
+    setUploadStatus(""); // Reset upload status
+    setAlert(false);
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files.length) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPostData({ ...postData, selectedFile: reader.result });
+        setUploadStatus("success"); // Set upload status to success
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -78,26 +109,52 @@ const CleanTextForm = () => {
             marginBottom: "15px",
           }}
         />
+        <div className="mb-4">
+          <input
+            onClick={handleTagsClick}
+            className={styles.input1}
+            type="text"
+            placeholder="Tags (comma separated)"
+            name="tags"
+            value={postData.tags}
+            onChange={(e) =>
+              setPostData({ ...postData, tags: e.target.value.split(",") })
+            }
+          />
+          {alert && (
+            <Alert style={{ marginBottom: "10px" }} severity="info">
+              Please use appropriate tags for better recommendations.
+            </Alert>
+          )}
+        </div>
 
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Tags"
-          name="tags"
-          value={postData.tags}
-          onChange={(e) =>
-            setPostData({ ...postData, tags: e.target.value.split(",") })
-          }
-        />
+        <div
+          className={`file-upload-container ${uploadStatus} flex items-center`}
+        >
+          <input
+            id="file-input"
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+          <label htmlFor="file-input" className="file-upload-label">
+            <span className="file-upload-text flex items-center">
+              {postData.selectedFile
+                ? "File Uploaded Successfully"
+                : "Upload an image"}
+            </span>
+          </label>
+        </div>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-2">
           <button className={styles.button} type="submit">
             Submit
           </button>
-          <button className={styles.clearButton} onClick={clear}>
+          <button className={styles.clearButton} onClick={clear} type="button">
             Clear
           </button>
         </div>
+        {tagAlert && <Alert severity="error">Tags are required.</Alert>}
       </form>
     </div>
   );
