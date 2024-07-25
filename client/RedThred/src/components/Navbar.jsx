@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -9,38 +9,43 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { getPostBySearch } from "../actions/posts";
 
 import HamMenu from "./HamMenu";
 import redthread from "../images/RED.png";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
-  const [userClick, setUserClick] = useState(false); // To open userProfile dropdown.
+  const [userClick, setUserClick] = useState(false);
   const [showAppearanceOptions, setShowAppearanceOptions] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [searchPosts, setSearchPosts] = useState([]);
+  const [searchClick, setSearchClick] = useState(false);
   const menuRef = useRef(null);
+  const searchRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("profile")); // result and token.
+    const storedUser = JSON.parse(localStorage.getItem("profile"));
     if (storedUser) {
-      setUser(storedUser);
-    }
-    const token = user?.token;
-    // console.log("Token: ", token);
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      if (decodedToken.exp * 1000 < new Date().getTime()) {
-        logout();
+      const token = storedUser.token;
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.exp * 1000 < new Date().getTime()) {
+          logout();
+        }
       }
     }
   }, []);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("profile"));
-    setUser(storedUser);
-
+    if (storedUser) {
+      setUser(storedUser);
+    }
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       document.documentElement.classList.add(savedTheme);
@@ -65,17 +70,6 @@ const Navbar = () => {
     navigate("/auth");
   };
 
-  const handleSearch = (e) => {
-    if (e.key === "Enter") {
-      if (searchValue.trim()) {
-        setSearchValue("");
-        navigate(`/search?query=${searchValue}`);
-      } else {
-        navigate("/");
-      }
-    }
-  };
-
   const handleUserLoginClick = () => {
     setUserClick(!userClick);
   };
@@ -97,14 +91,39 @@ const Navbar = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      if (searchValue.trim()) {
+        setSearchValue("");
+        navigate(`/search?query=${searchValue}`);
+      } else {
+        navigate("/");
+      }
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchClick(true);
+    setSearchValue(e.target.value);
+    dispatch(getPostBySearch(e.target.value));
+  };
+
+  const searchResults = useSelector((state) => state.posts.searchResults);
+
+  useEffect(() => {
+    setSearchPosts(searchResults.slice(0, 7));
+  }, [searchResults]);
+
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setUserClick(false);
     }
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setSearchClick(false);
+    }
   };
 
   useEffect(() => {
-    // Add event listener for detecting clicks outside the user menu
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -119,7 +138,10 @@ const Navbar = () => {
         className="max-h-[30px] hover:cursor-pointer"
         onClick={() => navigate("/")}
       />
-      <div className="hidden sm:flex bg-white dark:bg-black w-[60%] border-2 border-gray-300 dark:border-gray-600 gap-2 p-2 rounded-md items-center justify-center">
+      <div
+        ref={searchRef}
+        className="hidden z-10 sm:flex bg-white dark:bg-black w-[60%] border-2 border-gray-300 dark:border-gray-600 gap-2 p-2 rounded-md items-center justify-center relative"
+      >
         <SearchIcon style={{ color: "gray" }} />
         <input
           className="dark:bg-black"
@@ -130,9 +152,32 @@ const Navbar = () => {
             width: "100%",
             outline: "none",
           }}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={handleSearchChange}
           onKeyDown={handleSearch}
         />
+        {searchValue && searchPosts.length > 0 && searchClick && (
+          <div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md mt-2 shadow-lg">
+            {searchPosts.map((post) => (
+              <div
+                key={post._id}
+                className="p-2 border-b border-gray-200 dark:border-gray-700"
+              >
+                <Link
+                  onClick={() => setSearchValue("")}
+                  to={`/postDetails/${post._id}`}
+                  className="text-blue-500 hover:underline"
+                >
+                  {post.title}
+                </Link>
+              </div>
+            ))}
+            {searchPosts.length === 0 && (
+              <div className="p-2 text-center text-gray-500 dark:text-gray-400">
+                No results found
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div className="hidden sm:flex gap-4">
         <button
