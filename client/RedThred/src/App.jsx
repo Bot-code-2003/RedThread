@@ -64,7 +64,7 @@ const App = () => {
           path="/"
           element={
             <Grid container>
-              <Grid item xs={12} sm={12} md={6} lg={6}>
+              <Grid item xs={12} sm={12} md={8} lg={6}>
                 <Posts setPostID={setPostID} />{" "}
                 {/**postID from here is used in Form */}
                 {loading && (

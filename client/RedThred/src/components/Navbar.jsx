@@ -131,25 +131,25 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="flex justify-between w-full items-center px-10 py-2 shadow-md mb-3 bg-white dark:bg-gray-800">
+    <div className="flex justify-between gap-3 w-full items-center px-5 sm:px-10 py-2 shadow-md mb-3 bg-white dark:bg-gray-800">
       <img
         src={redthread}
         alt=""
-        className="max-h-[30px] hover:cursor-pointer"
+        className="max-h-[30px] sm:max-h-[40px] hover:cursor-pointer"
         onClick={() => navigate("/")}
       />
       <div
         ref={searchRef}
-        className="hidden z-10 sm:flex bg-white dark:bg-black w-[60%] border-2 border-gray-300 dark:border-gray-600 gap-2 p-2 rounded-md items-center justify-center relative"
+        className="z-10 sm:flex bg-white dark:bg-black w-full border-2 border-gray-300 dark:border-gray-600 gap-2 p-1 sm:p-2 rounded-md items-center relative"
       >
         <SearchIcon style={{ color: "gray" }} />
         <input
-          className="dark:bg-black"
+          className="dark:bg-black w-[70%] sm:w-[100%]"
           type="text"
           placeholder="Search RedThread"
           value={searchValue}
           style={{
-            width: "100%",
+            // width: "100%",
             outline: "none",
           }}
           onChange={handleSearchChange}
@@ -179,7 +179,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      <div className="hidden sm:flex gap-4">
+      <div className="hidden sm:flex gap-3">
         <button
           onClick={handleCreateClick}
           className="flex gap-2 items-center bg-primary-medium hover:bg-primary-dark text-white font-bold  sm:py-2 sm:px-4 rounded"
@@ -254,7 +254,7 @@ const Navbar = () => {
         ) : (
           <button
             onClick={handleLoginClick}
-            className="flex gap-2 bg-secondary-medium hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded"
+            className="flex gap-2 bg-secondary-medium hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded whitespace-nowrap"
           >
             <LoginOutlinedIcon />
             Log In
