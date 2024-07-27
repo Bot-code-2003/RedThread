@@ -176,7 +176,8 @@ const Post = ({ post, setPostID }) => {
           <p>{post.likes.length}</p>
         </button>
         {(user?.result?.sub === post?.creator ||
-          user?.result?._id === post?.creator) && (
+          user?.result?._id === post?.creator ||
+          user?.result?._id === import.meta.env.VITE_ADMIN_ID) && (
           <button
             className="p-2 rounded px-4 dark:bg-gray-700 bg-gray-300"
             size="small"

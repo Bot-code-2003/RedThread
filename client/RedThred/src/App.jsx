@@ -14,7 +14,7 @@ import { Routes, Route } from "react-router-dom";
 import Auth from "./Auth/Auth";
 import PostSkeleton from "./components/PostSkeleton";
 import SearchResults from "./components/SearchResults";
-import PostDetails from "./components/PostDetails";
+import PostDetails from "./components/PostDetails/PostDetails";
 
 const App = () => {
   const [postID, setPostID] = useState(null);

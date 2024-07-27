@@ -15,6 +15,10 @@ footer {
   @apply bg-secondary-dark text-white py-4 mt-8;
 }
 
+.react-quill.dark {
+  background-color: #1f2937;
+}
+
 .file-upload-container {
   display: flex;
   align-items: center;

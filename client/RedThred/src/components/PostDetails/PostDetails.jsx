@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost } from "../actions/posts";
+import { getPost } from "../../actions/posts";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AssistantIcon from "@mui/icons-material/Assistant";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Grid } from "@mui/material";
-import PostSkeleton from "./PostSkeleton";
+import { Divider, Grid } from "@mui/material";
+import PostSkeleton from "../PostSkeleton";
 import { useNavigate, Link } from "react-router-dom";
-import { getPostBySearch } from "../actions/posts";
+import { getPostBySearch } from "../../actions/posts";
+import CommentSection from "./CommentSection";
+import { CircularProgress } from "@mui/material";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -47,8 +50,8 @@ const PostDetails = () => {
   }, [dispatch]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} lg={10}>
+    <Grid container>
+      <Grid item xs={12} lg={12}>
         {post ? (
           <div className="p-4 flex flex-col items-center w-full bg-white dark:bg-transparent dark:text-white rounded-lg">
             <div className="flex gap-5 items-center mb-3">
@@ -119,24 +122,47 @@ const PostDetails = () => {
             {/* Render other post details here */}
           </div>
         ) : (
+          ////////////////////////////////
+          ////////////////////////////////
+          //////Recomendations Here //////
+          ////////////////////////////////
+          ////////////////////////////////
           <PostSkeleton />
         )}
       </Grid>
-      <Grid item lg={2} style={{ border: "1px solid black" }}>
-        <div className="w-full flex gap-5 flex-wrap item-center">
-          <h1 className="underline">Recommended Posts</h1>
 
-          {recommendedPosts?.map((post) => (
-            <Link
-              key={post._id}
-              onClick={(e) => (
-                e.preventDefault(), navigate(`/postDetails/${post._id}`)
-              )}
-            >
-              <h3 className="hover:underline">{post.title}</h3>
-            </Link>
-          ))}
-        </div>
+      <div className="border-b border-gray-200 mb-2 w-full" />
+      <div className="flex items-center mb-1 gap-2">
+        <AssistantIcon color="primary" />
+        <h1 className="dark:text-white  text-2xl ">Recommended Posts</h1>
+      </div>
+      <Grid container style={{ overflow: "auto", marginBottom: "1rem" }}>
+        {recommendedPosts.length < 0 ? (
+          <CircularProgress />
+        ) : (
+          recommendedPosts?.map((post) => (
+            <Grid item key={post._id}>
+              <Link
+                key={post._id}
+                onClick={(e) => (
+                  e.preventDefault(), navigate(`/postDetails/${post._id}`)
+                )}
+              >
+                <div className="flex flex-wrap item-center py-1 px-2 rounded-sm bg-gray-300 hover:bg-gray-400 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-700">
+                  <h3>
+                    {post.title.length > 25
+                      ? post.title.slice(0, 25) + "..."
+                      : post.title}
+                  </h3>
+                </div>
+              </Link>
+            </Grid>
+          ))
+        )}
+      </Grid>
+      <div className="border-b border-gray-200 mb-2 w-full" />
+      <Grid item xs={12} lg={12}>
+        <CommentSection />
       </Grid>
     </Grid>
   );

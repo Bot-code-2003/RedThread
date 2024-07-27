@@ -61,7 +61,11 @@ const HamMenu = ({ user }) => {
   return (
     <div className="sm:hidden relative" ref={menuRef}>
       <button onClick={toggleMenu}>
-        {isOpen ? <CloseIcon /> : <MenuIcon />}
+        {isOpen ? (
+          <CloseIcon style={{ color: "gray" }} />
+        ) : (
+          <MenuIcon style={{ color: "gray" }} />
+        )}
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border rounded shadow-lg p-2 z-10">

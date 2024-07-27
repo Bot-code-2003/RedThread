@@ -144,7 +144,7 @@ const Navbar = () => {
       >
         <SearchIcon style={{ color: "gray" }} />
         <input
-          className="dark:bg-black w-[70%] sm:w-[100%]"
+          className="dark:bg-black dark:text-white w-[70%] sm:w-[100%]"
           type="text"
           placeholder="Search RedThread"
           value={searchValue}
@@ -200,7 +200,7 @@ const Navbar = () => {
                   style={{ borderRadius: "50%" }}
                 />
               ) : (
-                <h3 className="text-black bolder text-center">
+                <h3 className="text-black bolder text-center dark:text-white">
                   {user?.result?.name.charAt(0).toUpperCase()}
                 </h3>
               )}

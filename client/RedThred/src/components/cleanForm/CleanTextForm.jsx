@@ -3,15 +3,14 @@ import { styles } from "../../styles";
 import { useDispatch } from "react-redux";
 import { createPost } from "../../actions/posts";
 import { useNavigate } from "react-router-dom";
-import FileBase from "react-file-base64";
 import Alert from "@mui/material/Alert";
-import ImageIcon from "@mui/icons-material/Image";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const CleanTextForm = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
+  const theme = localStorage.getItem("theme");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [alert, setAlert] = useState(false);
@@ -79,7 +78,7 @@ const CleanTextForm = () => {
   return (
     <div className="dark:bg-gray-800 py-5 rounded shadow-md ">
       <form
-        className="p-4"
+        className="p-4 dark:text-white"
         onSubmit={handleSubmit}
         autoComplete="off"
         noValidate
@@ -129,7 +128,7 @@ const CleanTextForm = () => {
         </div>
 
         <div
-          className={`file-upload-container ${uploadStatus} flex items-center`}
+          className={`dark:text-white dark:bg-gray-800 file-upload-container ${uploadStatus} flex items-center`}
         >
           <input
             id="file-input"
@@ -138,7 +137,7 @@ const CleanTextForm = () => {
             onChange={handleFileChange}
           />
           <label htmlFor="file-input" className="file-upload-label">
-            <span className="file-upload-text flex items-center">
+            <span className="dark:text-white file-upload-text flex items-center">
               {postData.selectedFile
                 ? "File Uploaded Successfully"
                 : "Upload an image"}
