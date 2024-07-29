@@ -49,7 +49,7 @@ export const getPostBySearch = (searchQuery) => async (dispatch) => {
 export const createPost = (post) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post);
-    console.log(data);
+    // console.log(data);
     const action = {
       type: "CREATE",
       payload: data,
@@ -124,10 +124,15 @@ export const likePost = (id) => async (dispatch) => {
  * @returns {any} - The updated post data.
  */
 export const commentPost =
-  (commentAuthor, comment, postId) => async (dispatch) => {
+  (commentAuthor, authorId, comment, postId) => async (dispatch) => {
     try {
-      const { data } = await api.commentPost(commentAuthor, comment, postId);
-      console.log(data);
+      const { data } = await api.commentPost(
+        commentAuthor,
+        authorId,
+        comment,
+        postId
+      );
+      // console.log(data);
       const action = {
         type: "COMMENT",
         payload: data,
@@ -142,9 +147,9 @@ export const commentPost =
 
 export const deleteComment = (postId, commentId) => async (dispatch) => {
   try {
-    console.log("Delete action called: ");
+    // console.log("Delete action called: ");
     await api.deleteComment(postId, commentId);
-    console.log("Dispatch is called");
+    // console.log("Dispatch is called");
     dispatch({
       type: "DELETE_COMMENT",
       payload: { postId, commentId },

@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const commentSchema = mongoose.Schema({
   author: String,
   comment: String,
+  authorId: String,
   createdAt: {
     type: Date,
     default: new Date(),

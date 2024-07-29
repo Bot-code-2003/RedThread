@@ -29,7 +29,7 @@ const PostDetails = () => {
     const fetchPostDetails = async () => {
       const postDetails = await dispatch(getPost(id));
       setPost(postDetails);
-      console.log("postDetails: ", postDetails);
+      // console.log("postDetails: ", postDetails);
     };
 
     fetchPostDetails();
@@ -48,7 +48,7 @@ const PostDetails = () => {
       checkImageResolution(post.selectedFile);
     }
   }, [dispatch]);
-  console.log("post: ", post);
+  // console.log("post: ", post);
   return (
     <Grid container>
       <Grid item xs={12} lg={12}>
@@ -57,11 +57,11 @@ const PostDetails = () => {
             <div className="flex gap-5 items-center mb-3">
               <h2
                 style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
-                className="text-4xl"
+                className="text-2xl sm:text-4xl"
               >
                 {post.title}
               </h2>
-              <div className="flex gap-1 items-center border border-gray-500 rounded py-1 px-4 ">
+              <div className="hidden sm:flex gap-1 items-center border border-gray-500 rounded py-1 px-4 ">
                 {post.likes.length > 0 ? (
                   post.likes.find(
                     (like) => like === (user?.result?.sub || user?.result?._id)
@@ -79,12 +79,6 @@ const PostDetails = () => {
                 <p className="text-xl">{post.likes.length}</p>
               </div>
             </div>
-            <div
-              className="text-black dark:text-gray-300"
-              dangerouslySetInnerHTML={{
-                __html: post?.message ? post.message : "",
-              }}
-            />
 
             <div
               className="post-part-3 flex items-center justify-center mb-2"
@@ -123,6 +117,12 @@ const PostDetails = () => {
                 alt=""
               />
             </div>
+            <div
+              className="text-black mt-3 dark:text-gray-300"
+              dangerouslySetInnerHTML={{
+                __html: post?.message || "",
+              }}
+            />
 
             {/* Render other post details here */}
           </div>
@@ -142,8 +142,8 @@ const PostDetails = () => {
         <h1 className="dark:text-white  text-2xl ">Recommended Posts</h1>
       </div>
       <Grid container style={{ overflow: "auto", marginBottom: "1rem" }}>
-        {recommendedPosts.length < 0 ? (
-          <CircularProgress />
+        {recommendedPosts.length === 0 ? (
+          <p className="text-gray-400">No recommended posts</p>
         ) : (
           recommendedPosts?.map((post) => (
             <Grid item key={post._id}>
@@ -164,7 +164,7 @@ const PostDetails = () => {
             </Grid>
           ))
         )}
-        <div className="border-b border-gray-200 mb-2 w-full" />
+        <div className="border-b border-gray-200 mb-2 mt-2 w-full" />
         <Grid item xs={12} lg={12}>
           <CommentSection post={post} />
         </Grid>

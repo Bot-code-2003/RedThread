@@ -5,18 +5,16 @@ import { useSelector } from "react-redux";
 import PostSkeleton from "../PostSkeleton";
 
 const Posts = ({ setPostID, isSearched }) => {
-  const posts = useSelector(
-    (state) => (
-      console.log("state: ", state),
-      /**
-       * The posts term (state.posts) refers to the key under which this
-       * specific reducer is registered when combining reducers.
-       */
-      isSearched ? state.posts.searchResults : state.posts.allPosts
-    )
+  const posts = useSelector((state) =>
+    // console.log("state: ", state),
+    /**
+     * The posts term (state.posts) refers to the key under which this
+     * specific reducer is registered when combining reducers.
+     */
+    isSearched ? state.posts.searchResults : state.posts.allPosts
   );
 
-  console.log("posts: ", posts);
+  // console.log("posts: ", posts);
 
   return !posts.length ? (
     <PostSkeleton />

@@ -19,6 +19,28 @@ footer {
   background-color: #1f2937;
 }
 
+/* styles.css */
+.custom-link:hover::before,
+.custom-link:hover::after {
+  content: "*";
+  color: currentColor;
+  margin: 0 0.25rem; /* Adjust spacing as needed */
+}
+
+.custom-link:hover::before {
+  margin-right: 0.25rem;
+}
+
+.custom-link:hover::after {
+  margin-left: 0.25rem;
+}
+
+/* styles.css */
+
+.disabled-link:hover {
+  cursor: not-allowed;
+}
+
 .file-upload-container {
   display: flex;
   align-items: center;

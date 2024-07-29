@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
         allPosts: state.allPosts.filter((post) => post._id !== action.payload),
       };
     case "DELETE_COMMENT":
-      console.log("Delete_comment Reducer");
+      // console.log("Delete_comment Reducer");
       return {
         ...state,
         allPosts: state.allPosts.map((post) => {

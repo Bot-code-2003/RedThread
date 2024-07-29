@@ -5,6 +5,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { BrowserRouter as Router } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Grid } from "@mui/material";
+
+import { Link } from "react-router-dom";
 
 import reducers from "./reducers";
 import App from "./App";
@@ -21,6 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
       <Provider store={store}>
         <Navbar />
+
         <App />
       </Provider>
     </GoogleOAuthProvider>

@@ -16,20 +16,19 @@ const Post = ({ post, setPostID }) => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("profile"));
 
+  const [imageWidth, setImageWidth] = useState(null);
+  const [loadingLike, setLoadingLike] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
   const handleHorizIconClick = () => {
-    console.log("handleHorizIconClick", post._id);
     setPostID(post._id);
     navigate("/create");
   };
 
-  // When user clicks on specific post
   const handleLinkClick = async (e) => {
     e.preventDefault();
     navigate(`/postDetails/${post._id}`);
   };
-
-  const [imageWidth, setImageWidth] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const checkImageResolution = (imgSrc) => {
     const img = new Image();
@@ -51,14 +50,30 @@ const Post = ({ post, setPostID }) => {
       return;
     }
 
-    setLoading(true);
+    setLoadingLike(true);
 
     try {
       await dispatch(likePost(post._id));
     } catch (error) {
       console.error("Error liking post:", error);
     } finally {
-      setLoading(false);
+      setLoadingLike(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this post?")) {
+      return;
+    }
+
+    setLoadingDelete(true);
+
+    try {
+      await dispatch(deletePost(post._id));
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    } finally {
+      setLoadingDelete(false);
     }
   };
 
@@ -66,10 +81,10 @@ const Post = ({ post, setPostID }) => {
     <div className="p-4 shadow-md bg-white dark:bg-gray-800 rounded-lg">
       <div className="post-part-1 flex text-xs sm:text-lg items-center justify-between mb-1">
         <div className="flex">
-          <p className="text-post-darker dark:text-gray-400">
+          <p className="text-post-darker text-sm dark:text-gray-400">
             {post.name} &nbsp;
           </p>
-          <p className="text-post-darker dark:text-gray-400">
+          <p className="text-post-darker text-sm dark:text-gray-400">
             • {moment(post.createdAt).tz("Asia/Kolkata").fromNow()}
           </p>
         </div>
@@ -99,11 +114,11 @@ const Post = ({ post, setPostID }) => {
           </p>
         </div>
         <div
-          className={` ${styles.paragraphText} dark:text-gray-300`}
+          className={` ${styles.paragraphText} mt-1 dark:text-gray-300`}
           dangerouslySetInnerHTML={{
             __html: post?.message
-              ? post.message.length > 320
-                ? post.message.substring(0, 320) + "..."
+              ? post.message.length > 250
+                ? post.message.substring(0, 250) + "..."
                 : post.message
               : "",
           }}
@@ -116,7 +131,7 @@ const Post = ({ post, setPostID }) => {
           borderRadius: "5px",
           position: "relative",
           width: "100%",
-          height: "auto",
+          maxHeight: "450px", // Set the maximum height
           overflow: "hidden",
         }}
       >
@@ -139,9 +154,10 @@ const Post = ({ post, setPostID }) => {
         <img
           src={post.selectedFile}
           style={{
-            maxWidth: imageWidth < 600 ? "100%" : "none",
-            minWidth: imageWidth >= 600 ? "100%" : "none",
-            borderRadius: imageWidth < 600 ? 0 : "5px",
+            maxHeight: "450px", // Set the maximum height
+            width: "100%", // Adjust width to fit container
+            objectFit: "cover", // Ensure image covers container
+            borderRadius: "5px",
             zIndex: 1,
           }}
           alt=""
@@ -159,9 +175,9 @@ const Post = ({ post, setPostID }) => {
             gap: "5px",
           }}
           onClick={handleLike}
-          disabled={loading}
+          disabled={loadingLike}
         >
-          {loading ? (
+          {loadingLike ? (
             <CircularProgress size={20} color="inherit" />
           ) : post.likes.length > 0 ? (
             post.likes.find(
@@ -188,12 +204,17 @@ const Post = ({ post, setPostID }) => {
               alignItems: "center",
               gap: "5px",
             }}
-            onClick={() => {
-              dispatch(deletePost(post._id));
-            }}
+            onClick={handleDelete}
+            disabled={loadingDelete}
           >
-            <DeleteIcon fontSize="small" />
-            Delete
+            {loadingDelete ? (
+              <CircularProgress size={20} color="inherit" />
+            ) : (
+              <>
+                <DeleteIcon fontSize="small" />
+                Delete
+              </>
+            )}
           </button>
         )}
       </div>

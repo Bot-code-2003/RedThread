@@ -15,13 +15,28 @@ import Auth from "./Auth/Auth";
 import PostSkeleton from "./components/PostSkeleton";
 import SearchResults from "./components/SearchResults";
 import PostDetails from "./components/PostDetails/PostDetails";
+import { useNavigate } from "react-router-dom";
+import TermsAndConditions from "./policy/TermsAndConditions";
+import CommunityGuidelines from "./policy/CommunityGuidelines";
+import PrivacyPolicy from "./policy/PrivacyPolicy";
+import VersionInfo from "./policy/VersionInfo";
+import AboutUs from "./policy/AboutUs";
 
+import ForumIcon from "@mui/icons-material/Forum";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import WhatshotIcon from "@mui/icons-material/Whatshot";
+import GavelIcon from "@mui/icons-material/Gavel";
+import PolicyIcon from "@mui/icons-material/Policy";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import InfoIcon from "@mui/icons-material/Info";
+import GestureIcon from "@mui/icons-material/Gesture";
 const App = () => {
   const [postID, setPostID] = useState(null);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch data according to the page.
@@ -63,8 +78,63 @@ const App = () => {
         <Route
           path="/"
           element={
-            <Grid container>
-              <Grid item xs={12} sm={12} md={8} lg={6}>
+            <Grid container spacing={2}>
+              <Grid
+                className="sm:block sm:overflow-hidden overflow-x-scroll"
+                item
+                lg={2}
+              >
+                <div className="dark:text-white flex items-center sm:items-stretch text-nowrap sm:flex-col gap-2">
+                  <button className="flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
+                    <ForumIcon />
+                    Communities
+                  </button>
+                  <button className="flex justify-start gap-2 border rounded-sm p-2 disabled-link">
+                    <WhatshotIcon />
+                    Trending
+                  </button>
+                  <button className="flex justify-start gap-2 border rounded-sm p-2 disabled-link">
+                    <PersonAddIcon />
+                    Friends
+                  </button>
+                  <button
+                    className="flex justify-start gap-2 border rounded-sm p-2 hover:underline"
+                    onClick={() => navigate("/terms")}
+                  >
+                    <GavelIcon />
+                    Terms and Conditions
+                  </button>
+                  <button
+                    className="flex justify-start gap-2 border rounded-sm p-2 hover:underline"
+                    onClick={() => navigate("/guidelines")}
+                  >
+                    <TipsAndUpdatesIcon />
+                    Community Guidelines
+                  </button>
+                  <button
+                    className="flex justify-start gap-2 border rounded-sm p-2 hover:underline"
+                    onClick={() => navigate("/privacy")}
+                  >
+                    <PolicyIcon />
+                    Privacy Policy
+                  </button>
+                  <button
+                    className="flex justify-start gap-2 border rounded-sm p-2 hover:underline"
+                    onClick={() => navigate("/aboutus")}
+                  >
+                    <GestureIcon />
+                    About us
+                  </button>
+                  <button
+                    className="flex justify-start gap-2 border rounded-sm p-2 hover:underline"
+                    onClick={() => navigate("/versionInfo")}
+                  >
+                    <InfoIcon />
+                    RedThread 1.0
+                  </button>
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={10}>
                 <Posts setPostID={setPostID} />{" "}
                 {/**postID from here is used in Form */}
                 {loading && (
@@ -79,6 +149,11 @@ const App = () => {
             </Grid>
           }
         />
+        <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/guidelines" element={<CommunityGuidelines />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/versionInfo" element={<VersionInfo />} />
+        <Route path="/aboutus" element={<AboutUs />} />
         <Route
           path="/search"
           element={
