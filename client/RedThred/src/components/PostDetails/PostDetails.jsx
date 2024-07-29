@@ -55,7 +55,12 @@ const PostDetails = () => {
         {post ? (
           <div className="p-4 flex flex-col items-center w-full bg-white dark:bg-transparent dark:text-white rounded-lg">
             <div className="flex gap-5 items-center mb-3">
-              <h2 className="text-4xl">{post.title}</h2>
+              <h2
+                style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
+                className="text-4xl"
+              >
+                {post.title}
+              </h2>
               <div className="flex gap-1 items-center border border-gray-500 rounded py-1 px-4 ">
                 {post.likes.length > 0 ? (
                   post.likes.find(

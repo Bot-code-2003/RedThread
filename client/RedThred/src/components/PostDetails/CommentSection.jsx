@@ -1,8 +1,9 @@
+// CommentSection.jsx
 import React, { useState, useEffect } from "react";
-import ReviewsIcon from "@mui/icons-material/Reviews";
 import { useDispatch } from "react-redux";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { commentPost, deleteComment } from "../../actions/posts";
+import moment from "moment-timezone";
 
 const CommentSection = ({ post }) => {
   const [comments, setComments] = useState([]);
@@ -14,7 +15,7 @@ const CommentSection = ({ post }) => {
     if (post?.comments) {
       setComments(post.comments);
     }
-  }, [post]);
+  }, [post, dispatch]);
 
   const handleEnterKey = (e) => {
     if (e.key === "Enter") {
@@ -33,54 +34,52 @@ const CommentSection = ({ post }) => {
   };
 
   const handleCommentDelete = async (commentId) => {
-    const updatedPost = await dispatch(deleteComment(post._id, commentId));
-    setComments(updatedPost.comments);
+    await dispatch(deleteComment(post._id, commentId));
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment._id !== commentId)
+    );
   };
 
   return (
-    <div className="dark:text-white">
+    <div className="dark:text-white w-full">
       <div className="flex items-center gap-2">
-        <ReviewsIcon style={{ color: "#b80000" }} />
         <h1 className="text-2xl m-0">Comments</h1>
       </div>
-      <div className="flex flex-col">
-        <textarea
-          onKeyDown={handleEnterKey}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Write a comment"
-          className="sm:w-[50%] w-full border border-gray h-28 bg-gray-100 dark:bg-gray-700 rounded-md p-2"
-        />
-        <button
-          className="bg-gray-300 w-full hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700 p-2 mt-1 sm:w-[50%] rounded-md"
-          onClick={addComment}
-        >
-          Comment
-        </button>
-      </div>
-      {comments?.length === 0 ? (
+      {user && (
+        <div className="flex flex-col w-full sm:w-[50%]">
+          <textarea
+            onKeyDown={handleEnterKey}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Write a comment"
+            className="w-full border border-gray h-28 bg-gray-100 rounded-md p-2"
+          />
+          <button
+            className="bg-gray-300 w-full hover:bg-gray-400 p-2 mt-1 rounded-md"
+            onClick={addComment}
+          >
+            Comment
+          </button>
+        </div>
+      )}
+      {comments.length === 0 ? (
         <p className="text-gray-400 text-xl">No comments yet</p>
       ) : (
-        comments.map((comment) => (
-          <div key={comment._id} className="flex items-start gap-3 mb-2 mt-2">
+        comments.map((comment, i) => (
+          <div key={i} className="flex items-start gap-3 mb-2 mt-2">
             <div>
               <p className="text-gray-400 text-sm">
-                {comment.author} &nbsp;{" "}
-                {new Date(comment.createdAt).toLocaleString()}
+                {comment.author} •{" "}
+                {moment(comment.createdAt).tz("Asia/Kolkata").fromNow()}
               </p>
               <p>{comment.comment}</p>
-              <FavoriteBorderIcon
-                fontSize="small"
-                style={{ color: "#9ca3af" }}
-              />
-              {user.result.name === comment.author && (
-                <button
+              <div className="flex gap-2">
+                <DeleteIcon
                   onClick={() => handleCommentDelete(comment._id)}
-                  className="text-red-500 hover:text-red-700 ml-2"
-                >
-                  Delete
-                </button>
-              )}
+                  fontSize="small"
+                  style={{ color: "#9ca3af" }}
+                />
+              </div>
             </div>
           </div>
         ))

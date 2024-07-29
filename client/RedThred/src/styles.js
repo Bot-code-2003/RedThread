@@ -3,10 +3,10 @@ const styles = {
   paddingY: "sm:py-16 py-6",
   padding: "sm:px-10 px-3 sm:py-6 py-3",
 
-  titleText: "sm:text-2xl mb-2 text-lg font-normal text-black",
+  titleText: "sm:text-2xl text-lg font-normal text-black",
   paragraphText:
-    "sm:text-md mb-2 text-sm font-normal text-black overflow-hidden",
-  tag: "inline-block py-1 mb-2 text-xs font-semibold text-gray-500 ",
+    "sm:text-md text-sm font-normal text-black overflow-hidden text-gray-500 text-ellipsis",
+  tag: "inline-block py-1 text-xs font-semibold text-gray-500",
 
   input:
     "w-full p-2 mb-4 border rounded-sm focus:outline-none focus:ring-1 focus:ring-secondary-dark dark:bg-gray-800",

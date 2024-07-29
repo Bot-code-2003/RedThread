@@ -142,14 +142,13 @@ export const commentPost =
 
 export const deleteComment = (postId, commentId) => async (dispatch) => {
   try {
-    const { data } = await api.deleteComment(postId, commentId);
-    const action = {
+    console.log("Delete action called: ");
+    await api.deleteComment(postId, commentId);
+    console.log("Dispatch is called");
+    dispatch({
       type: "DELETE_COMMENT",
-      payload: data,
-    };
-    dispatch(action);
-    console.log("Comment delete action return data: ", data);
-    return data; // Return the updated post with comments
+      payload: { postId, commentId },
+    });
   } catch (error) {
     console.error(error);
   }

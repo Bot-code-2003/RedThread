@@ -63,7 +63,7 @@ const Post = ({ post, setPostID }) => {
   };
 
   return (
-    <div className="p-4 shadow-md w-full bg-white dark:bg-gray-800 rounded-lg">
+    <div className="p-4 shadow-md bg-white dark:bg-gray-800 rounded-lg">
       <div className="post-part-1 flex text-xs sm:text-lg items-center justify-between mb-1">
         <div className="flex">
           <p className="text-post-darker dark:text-gray-400">
@@ -88,7 +88,8 @@ const Post = ({ post, setPostID }) => {
         <div className="flex justify-between flex-col sm:flex-row">
           <Link onClick={handleLinkClick}>
             <h1
-              className={`${styles.titleText} hover:underline dark:text-white`}
+              style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
+              className={`${styles.titleText} max-w-[100%] hover:underline dark:text-white`}
             >
               {post.title}
             </h1>
@@ -98,7 +99,7 @@ const Post = ({ post, setPostID }) => {
           </p>
         </div>
         <div
-          className="text-black dark:text-gray-300"
+          className={` ${styles.paragraphText} dark:text-gray-300`}
           dangerouslySetInnerHTML={{
             __html: post?.message
               ? post.message.length > 320

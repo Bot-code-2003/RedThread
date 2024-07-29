@@ -145,16 +145,19 @@ export const commentPost = async (req, res) => {
 };
 
 export const deleteComment = async (req, res) => {
-  const { id, commentId } = req.params;
+  const { postId, commentId } = req.params;
   try {
-    const post = await PostMessage.findById(id);
-    post.comments = post.comments.filter(
-      (comment) => comment._id.toString() !== commentId
+    const result = await PostMessage.findByIdAndUpdate(
+      postId,
+      { $pull: { comments: { _id: commentId } } }, // Efficiently remove the comment
+      { new: true } // Return the updated post if necessary
     );
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
-      new: true,
-    });
-    res.json(updatedPost);
+
+    if (!result) {
+      return res.status(404).send("Post not found");
+    }
+
+    res.status(204).send(); // No content to send back
   } catch (error) {
     console.log(error);
     res.status(500).send("Something went wrong");

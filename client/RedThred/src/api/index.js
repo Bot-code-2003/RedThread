@@ -71,4 +71,4 @@ export const commentPost = (commentAuthor, comment, postId) =>
   API.post(`/posts/${postId}/comment`, { commentAuthor, comment });
 
 export const deleteComment = (postId, commentId) =>
-  API.patch(`/posts/${postId}/comment/${commentId}`);
+  API.delete(`/posts/${postId}/comment/${commentId}`);
