@@ -128,3 +128,35 @@ export const likePost = async (req, res) => {
     res.status(500).send("Something went wrong");
   }
 };
+
+export const commentPost = async (req, res) => {
+  const { id } = req.params;
+  const { commentAuthor, comment } = req.body;
+  try {
+    const post = await PostMessage.findById(id);
+    post.comments.push({ author: commentAuthor, comment: comment });
+    const updatePost = await PostMessage.findByIdAndUpdate(id, post, {
+      new: true,
+    });
+    res.json(updatePost);
+  } catch (error) {
+    res.status(500).send("Something went wrong");
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  const { id, commentId } = req.params;
+  try {
+    const post = await PostMessage.findById(id);
+    post.comments = post.comments.filter(
+      (comment) => comment._id.toString() !== commentId
+    );
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+      new: true,
+    });
+    res.json(updatedPost);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Something went wrong");
+  }
+};

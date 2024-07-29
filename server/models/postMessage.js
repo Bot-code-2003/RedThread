@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
+const commentSchema = mongoose.Schema({
+  author: String,
+  comment: String,
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
+});
+
 const postSchema = mongoose.Schema({
   title: String,
   message: String,
@@ -7,6 +16,10 @@ const postSchema = mongoose.Schema({
   creator: String, //Contains the userId
   tags: [String],
   selectedFile: String,
+  comments: {
+    type: [commentSchema],
+    default: [],
+  },
   likes: {
     type: [String], //array of id's that liked the post
     default: [], //empty array.

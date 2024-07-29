@@ -5,7 +5,7 @@ import { getPost } from "../../actions/posts";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AssistantIcon from "@mui/icons-material/Assistant";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Divider, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import PostSkeleton from "../PostSkeleton";
 import { useNavigate, Link } from "react-router-dom";
 import { getPostBySearch } from "../../actions/posts";
@@ -48,7 +48,7 @@ const PostDetails = () => {
       checkImageResolution(post.selectedFile);
     }
   }, [dispatch]);
-
+  console.log("post: ", post);
   return (
     <Grid container>
       <Grid item xs={12} lg={12}>
@@ -159,10 +159,10 @@ const PostDetails = () => {
             </Grid>
           ))
         )}
-      </Grid>
-      <div className="border-b border-gray-200 mb-2 w-full" />
-      <Grid item xs={12} lg={12}>
-        <CommentSection />
+        <div className="border-b border-gray-200 mb-2 w-full" />
+        <Grid item xs={12} lg={12}>
+          <CommentSection post={post} />
+        </Grid>
       </Grid>
     </Grid>
   );

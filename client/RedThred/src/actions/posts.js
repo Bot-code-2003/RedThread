@@ -115,3 +115,42 @@ export const likePost = (id) => async (dispatch) => {
     console.log(error);
   }
 };
+
+/**
+ *
+ * @param {String} commentAuthor
+ * @param {String} comment
+ * @param {String} postId
+ * @returns {any} - The updated post data.
+ */
+export const commentPost =
+  (commentAuthor, comment, postId) => async (dispatch) => {
+    try {
+      const { data } = await api.commentPost(commentAuthor, comment, postId);
+      console.log(data);
+      const action = {
+        type: "COMMENT",
+        payload: data,
+      };
+      dispatch(action);
+      // console.log("Comment action return datra: ", data);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const deleteComment = (postId, commentId) => async (dispatch) => {
+  try {
+    const { data } = await api.deleteComment(postId, commentId);
+    const action = {
+      type: "DELETE_COMMENT",
+      payload: data,
+    };
+    dispatch(action);
+    console.log("Comment delete action return data: ", data);
+    return data; // Return the updated post with comments
+  } catch (error) {
+    console.error(error);
+  }
+};

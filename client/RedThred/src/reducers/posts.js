@@ -15,11 +15,17 @@ export default (state = initialState, action) => {
         allPosts: [...state.allPosts, ...newPosts],
       };
     case "FETCH_BY_SEARCH":
-      // console.log("Reducer searching action: ", );
       return {
         ...state,
         searchResults: action.payload.data || [],
         recommendedPosts: action.payload.recommendedPosts || [],
+      };
+    case "COMMENT":
+      return {
+        ...state,
+        allPosts: state.allPosts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
       };
     case "CREATE":
       return {
@@ -38,6 +44,21 @@ export default (state = initialState, action) => {
       return {
         ...state,
         allPosts: state.allPosts.filter((post) => post._id !== action.payload),
+      };
+    case "DELETE_COMMENT":
+      return {
+        ...state,
+        allPosts: state.allPosts.map((post) => {
+          if (post._id === action.payload.postId) {
+            return {
+              ...post,
+              comments: post.comments.filter(
+                (comment) => comment._id !== action.payload.commentId
+              ),
+            };
+          }
+          return post;
+        }),
       };
     default:
       return state;
