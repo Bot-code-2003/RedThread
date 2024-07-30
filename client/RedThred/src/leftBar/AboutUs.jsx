@@ -5,7 +5,7 @@ import { Container, Typography, Box } from "@mui/material";
 
 const AboutUs = () => {
   return (
-    <Container maxWidth="md" style={{ marginTop: "2rem" }}>
+    <div className="dark:text-white p-4">
       <Box>
         <Typography variant="h3" gutterBottom>
           About Us
@@ -56,7 +56,7 @@ const AboutUs = () => {
           the best of anime, Kdrama, and Cdrama!
         </Typography>
       </Box>
-    </Container>
+    </div>
   );
 };
 

@@ -2,7 +2,7 @@
 import React from "react";
 
 const PrivacyPolicy = () => (
-  <div className="p-6 bg-white dark:bg-gray-800 rounded-lg">
+  <div className="p-6 dark:text-white rounded-lg">
     <h2 className="text-2xl font-bold mb-4">Privacy Policy</h2>
     <p>
       <strong>Effective Date:</strong> 29-07-2024

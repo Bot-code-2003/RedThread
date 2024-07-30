@@ -16,11 +16,11 @@ import PostSkeleton from "./components/PostSkeleton";
 import SearchResults from "./components/SearchResults";
 import PostDetails from "./components/PostDetails/PostDetails";
 import { useNavigate } from "react-router-dom";
-import TermsAndConditions from "./policy/TermsAndConditions";
-import CommunityGuidelines from "./policy/CommunityGuidelines";
-import PrivacyPolicy from "./policy/PrivacyPolicy";
-import VersionInfo from "./policy/VersionInfo";
-import AboutUs from "./policy/AboutUs";
+import TermsAndConditions from "./leftBar/TermsAndConditions";
+import CommunityGuidelines from "./leftBar/CommunityGuidelines";
+import PrivacyPolicy from "./leftBar/PrivacyPolicy";
+import VersionInfo from "./leftBar/VersionInfo";
+import AboutUs from "./leftBar/AboutUs";
 
 import ForumIcon from "@mui/icons-material/Forum";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -80,12 +80,12 @@ const App = () => {
           element={
             <Grid container spacing={2}>
               <Grid
-                className="sm:block sm:overflow-hidden overflow-x-scroll"
+                className="sm:sticky sm:top-3 flex justify-center sm:h-[700px] sm:overflow-hidden overflow-x-scroll"
                 item
                 lg={2}
               >
                 <div className="dark:text-white flex items-center sm:items-stretch text-nowrap sm:flex-col gap-2">
-                  <button className="flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
+                  <button className="ml-[920px] sm:ml-0 flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
                     <ForumIcon />
                     Communities
                   </button>
@@ -122,19 +122,19 @@ const App = () => {
                     className="flex justify-start gap-2 border rounded-sm p-2 hover:underline"
                     onClick={() => navigate("/aboutus")}
                   >
-                    <GestureIcon />
+                    <InfoIcon />
                     About us
                   </button>
                   <button
                     className="flex justify-start gap-2 border rounded-sm p-2 hover:underline"
                     onClick={() => navigate("/versionInfo")}
                   >
-                    <InfoIcon />
+                    <GestureIcon />
                     RedThread 1.0
                   </button>
                 </div>
               </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={10}>
+              <Grid item xs={12} sm={12} md={12} lg={8}>
                 <Posts setPostID={setPostID} />{" "}
                 {/**postID from here is used in Form */}
                 {loading && (
@@ -145,6 +145,11 @@ const App = () => {
                     <PostSkeleton />
                   </>
                 )}{" "}
+              </Grid>
+              <Grid item lg={2}>
+                {/* <div className="dark:bg-gray-700 p-2 rounded-md min-h-28 dark:text-white"> */}
+                {/* <p>work in progress...</p> */}
+                {/* </div> */}
               </Grid>
             </Grid>
           }

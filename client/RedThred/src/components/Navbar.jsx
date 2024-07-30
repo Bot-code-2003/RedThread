@@ -135,7 +135,7 @@ const Navbar = () => {
       <img
         src={redthread}
         alt=""
-        className="max-h-[30px] sm:max-h-[40px] hover:cursor-pointer"
+        className="max-h-[30px] sm:max-h-[40px] rounded-lg hover:cursor-pointer"
         onClick={() => navigate("/")}
       />
       <div

@@ -131,7 +131,7 @@ const Post = ({ post, setPostID }) => {
           borderRadius: "5px",
           position: "relative",
           width: "100%",
-          maxHeight: "450px", // Set the maximum height
+          height: "auto",
           overflow: "hidden",
         }}
       >
@@ -154,10 +154,9 @@ const Post = ({ post, setPostID }) => {
         <img
           src={post.selectedFile}
           style={{
-            maxHeight: "450px", // Set the maximum height
-            width: "100%", // Adjust width to fit container
-            objectFit: "cover", // Ensure image covers container
-            borderRadius: "5px",
+            maxWidth: imageWidth < 600 ? "100%" : "none",
+            minWidth: imageWidth >= 600 ? "100%" : "none",
+            borderRadius: imageWidth < 600 ? 0 : "5px",
             zIndex: 1,
           }}
           alt=""

@@ -2,7 +2,7 @@
 import React from "react";
 
 const CommunityGuidelines = () => (
-  <div className="p-6 bg-white dark:bg-gray-800 rounded-lg">
+  <div className="p-6 dark:text-white rounded-lg">
     <h2 className="text-2xl font-bold mb-4">Community Guidelines</h2>
 
     <h3 className="text-xl font-semibold mt-4">1. Respectful Conduct</h3>

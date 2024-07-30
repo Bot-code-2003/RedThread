@@ -62,7 +62,7 @@ const CommentSection = ({ post }) => {
             className="w-full text-black dark:text-white border border-gray h-28 bg-gray-100 dark:bg-gray-600 rounded-md p-2"
           />
           <button
-            className="bg-gray-300 dark:bg-gray-700 w-full hover:bg-gray-400 p-2 mt-1 rounded-md"
+            className="bg-gray-300 dark:bg-gray-700 w-full hover:bg-gray-400 p-2 mt-2 mb-4 rounded-md"
             onClick={addComment}
           >
             Comment
@@ -73,7 +73,13 @@ const CommentSection = ({ post }) => {
         <p className="text-gray-400">No comments yet</p>
       ) : (
         comments.map((comment, i) => (
-          <div key={i} className="flex items-start gap-3 mb-2 mt-2">
+          <div
+            key={i}
+            className="flex items-start  border-b dark:border-gray-700 border-gray-300 pb-2 gap-3 mb-2 mt-2"
+          >
+            <div className="w-[40px] h-[40px] flex items-center border border-gray-500 justify-center rounded-full">
+              <h3>{comment.author.charAt(0).toUpperCase()}</h3>
+            </div>
             <div>
               <p className="text-gray-400 text-sm">
                 {comment.author} • {moment(comment.createdAt).fromNow()}

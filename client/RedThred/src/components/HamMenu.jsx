@@ -21,6 +21,7 @@ const HamMenu = ({ user }) => {
   };
 
   const handleCreateClick = () => {
+    setIsOpen(false);
     user ? navigate("/cleanCreate") : navigate("/auth");
   };
 

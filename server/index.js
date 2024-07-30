@@ -14,6 +14,10 @@ app.use(cors());
 app.use("/posts", postRoutes); // Use the postRoutes with /posts as base endpoint.
 app.use("/user", userRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Hello to RedThred API");
+});
+
 const PORT = process.env.PORT || 5000;
 
 mongoose
