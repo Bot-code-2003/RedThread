@@ -7,7 +7,7 @@ import moment from "moment-timezone";
 import { Button, CircularProgress } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
+import { Alert } from "@mui/material";
 import { styles } from "../../../styles";
 import { deletePost, likePost } from "../../../actions/posts";
 
@@ -19,10 +19,16 @@ const Post = ({ post, setPostID }) => {
   const [imageWidth, setImageWidth] = useState(null);
   const [loadingLike, setLoadingLike] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
-  const handleHorizIconClick = () => {
-    setPostID(post._id);
-    navigate("/create");
+  const handleHorizIconClick = (e) => {
+    e.preventDefault();
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 2000);
+    // setPostID(post._id);
+    // navigate("/create");
   };
 
   const handleLinkClick = async (e) => {
@@ -78,7 +84,15 @@ const Post = ({ post, setPostID }) => {
   };
 
   return (
-    <div className="p-4 shadow-md bg-white dark:bg-gray-800 rounded-lg">
+    <div className="p-4 shadow-md bg-white dark:bg-gray-800 rounded-lg relative">
+      {showAlert && (
+        <Alert
+          severity="info"
+          sx={{ position: "absolute", top: -25, right: 0 }}
+        >
+          Edit option temporarily disabled
+        </Alert>
+      )}
       <div className="post-part-1 flex text-xs sm:text-lg items-center justify-between mb-1">
         <div className="flex">
           <p className="text-post-darker text-sm dark:text-gray-400">
@@ -93,6 +107,7 @@ const Post = ({ post, setPostID }) => {
           <Button
             style={{ color: "gray" }}
             size="small"
+            className="disabled-link"
             onClick={handleHorizIconClick}
           >
             <MoreHorizIcon fontSize="medium" />

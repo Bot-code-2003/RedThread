@@ -44,6 +44,8 @@ const HamMenu = ({ user }) => {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
+
+    setIsOpen(false);
   };
 
   const handleClickOutside = (event) => {
@@ -83,8 +85,7 @@ const HamMenu = ({ user }) => {
                 {user?.result?.name}
               </button>
               <div
-                onMouseEnter={() => setShowAppearanceOptions(true)}
-                onMouseLeave={() => setShowAppearanceOptions(false)}
+                onClick={() => setShowAppearanceOptions(!showAppearanceOptions)}
                 className="relative"
               >
                 <button className="flex justify-between w-full px-4 py-2 text-left text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">

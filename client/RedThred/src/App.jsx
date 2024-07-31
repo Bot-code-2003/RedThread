@@ -22,6 +22,8 @@ import PrivacyPolicy from "./leftBar/PrivacyPolicy";
 import VersionInfo from "./leftBar/VersionInfo";
 import AboutUs from "./leftBar/AboutUs";
 
+import HomeIcon from "@mui/icons-material/Home";
+import ExploreIcon from "@mui/icons-material/Explore";
 import ForumIcon from "@mui/icons-material/Forum";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
@@ -85,7 +87,11 @@ const App = () => {
                 lg={2}
               >
                 <div className="dark:text-white flex items-center sm:items-stretch text-nowrap sm:flex-col gap-2">
-                  <button className="ml-[920px] sm:ml-0 flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
+                  <button className="ml-[1045px] sm:ml-0 flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
+                    <ExploreIcon />
+                    Explore
+                  </button>
+                  <button className="flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
                     <ForumIcon />
                     Communities
                   </button>

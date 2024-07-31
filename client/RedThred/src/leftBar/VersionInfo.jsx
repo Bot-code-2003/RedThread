@@ -14,9 +14,8 @@ const VersionInfo = () => {
         <li>Get post recommendations based on tags.</li>
         <li>Comment on posts.</li>
         <li>Like posts.</li>
-        <li>
-          Edit or delete uploaded posts and comments (only by the author).
-        </li>
+        <li>Edit or delete uploaded posts(only by the author).</li>
+        <li>Delete comments (only by the author).</li>
       </ul>
       <h2 className="text-xl font-semibold mt-4 mb-2">Upcoming Features</h2>
       <ul className="list-disc pl-5">
@@ -26,6 +25,9 @@ const VersionInfo = () => {
         <li>Save posts.</li>
         <li>Comment threading (comments inside comments).</li>
         <li>Liking a Comment.</li>
+        <li>Explore page</li>
+        <li>Trending posts of the week</li>
+        <li>and much more.</li>
       </ul>
     </div>
   );

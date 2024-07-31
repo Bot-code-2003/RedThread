@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const PostSkeleton = () => {
   return (
     <>
-      <div className="max-w-[100%] h-auto p-7 bg-white dark:bg-gray-800 rounded-lg animate-pulse">
+      <div className="max-w-[100%] h-auto p-7 mt-4 bg-white dark:bg-gray-800 rounded-lg animate-pulse">
         <div className="post-part-1 flex text-xs sm:text-lg items-center justify-between mb-1">
           <div className="flex">
             <div className="text-post-darker dark:text-gray-400 bg-gray-200 h-4 w-20 rounded-md mb-1"></div>
