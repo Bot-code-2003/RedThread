@@ -30,7 +30,6 @@ const PostDetails = () => {
     const fetchPostDetails = async () => {
       const postDetails = await dispatch(getPost(id));
       setPost(postDetails);
-      // console.log("postDetails: ", postDetails);
     };
 
     fetchPostDetails();
@@ -39,8 +38,12 @@ const PostDetails = () => {
   const checkImageResolution = (imgSrc) => {
     const img = new Image();
     img.onload = () => {
-      setImageWidth(img.width);
-      setImageHeight(img.height);
+      const width = img.width;
+      const height = img.height;
+      console.log(width, height); // Log dimensions directly from the `onload` event
+
+      setImageWidth(width);
+      setImageHeight(height);
     };
     img.src = imgSrc;
   };
@@ -49,8 +52,8 @@ const PostDetails = () => {
     if (post?.selectedFile) {
       checkImageResolution(post.selectedFile);
     }
-  }, [dispatch]);
-  // console.log("post: ", post);
+  }, [post?.selectedFile]); // Depend on post.selectedFile
+
   return (
     <Grid container>
       <Grid item xs={12} lg={12}>
@@ -129,11 +132,6 @@ const PostDetails = () => {
             {/* Render other post details here */}
           </div>
         ) : (
-          ////////////////////////////////
-          ////////////////////////////////
-          //////Recomendations Here //////
-          ////////////////////////////////
-          ////////////////////////////////
           <PostSkeleton />
         )}
       </Grid>
