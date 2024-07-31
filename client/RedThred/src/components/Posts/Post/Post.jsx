@@ -21,6 +21,7 @@ const Post = ({ post, setPostID }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const [imageWidth, setImageWidth] = useState(null);
+  const [imageHeight, setImageHeight] = useState(null);
   const [loadingLike, setLoadingLike] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -44,6 +45,8 @@ const Post = ({ post, setPostID }) => {
     const img = new Image();
     img.onload = () => {
       setImageWidth(img.width);
+      setImageHeight(img.height);
+      console.log(imageWidth, imageHeight);
     };
     img.src = imgSrc;
   };
@@ -160,7 +163,7 @@ const Post = ({ post, setPostID }) => {
           overflow: "hidden",
         }}
       >
-        {imageWidth < 600 && (
+        {(imageWidth < 600 || imageHeight > 600) && (
           <div
             style={{
               position: "absolute",
@@ -180,7 +183,7 @@ const Post = ({ post, setPostID }) => {
           src={post.selectedFile}
           style={{
             maxWidth: imageWidth < 600 ? "100%" : isMobile ? "100%" : "80%",
-            // minWidth: imageWidth >= 600 ? "100%" : "none",
+            maxHeight: imageHeight < 600 ? "100%" : "600px",
             borderRadius: imageWidth < 600 ? 0 : "5px",
             zIndex: 1,
           }}

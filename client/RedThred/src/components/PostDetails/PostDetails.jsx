@@ -17,6 +17,7 @@ const PostDetails = () => {
   const dispatch = useDispatch();
   const [post, setPost] = useState(null);
   const [imageWidth, setImageWidth] = useState(null);
+  const [imageHeight, setImageHeight] = useState(null);
   const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
   const recommendedPosts = useSelector((state) => state.posts.recommendedPosts);
@@ -39,6 +40,7 @@ const PostDetails = () => {
     const img = new Image();
     img.onload = () => {
       setImageWidth(img.width);
+      setImageHeight(img.height);
     };
     img.src = imgSrc;
   };
@@ -90,7 +92,7 @@ const PostDetails = () => {
                 overflow: "hidden",
               }}
             >
-              {imageWidth < 600 && (
+              {(imageWidth < 600 || imageHeight > 600) && (
                 <div
                   style={{
                     position: "absolute",
@@ -109,8 +111,8 @@ const PostDetails = () => {
               <img
                 src={post.selectedFile}
                 style={{
-                  maxWidth: imageWidth < 600 ? "100%" : "80%",
-                  // minWidth: imageWidth >= 600 ? "80%" : "none",
+                  maxWidth: imageWidth < 600 ? "100%" : "600px",
+                  maxHeight: imageHeight < 600 ? "100%" : "600px",
                   borderRadius: imageWidth < 600 ? 0 : "5px",
                   zIndex: 1,
                 }}
