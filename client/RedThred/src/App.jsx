@@ -87,24 +87,24 @@ const App = () => {
                 lg={2}
               >
                 <div className="dark:text-white flex items-center sm:items-stretch text-nowrap sm:flex-col gap-2">
-                  <button className="ml-[1045px] sm:ml-0 flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
+                  <button className="ml-[1045px] sm:ml-0 hidden sm:flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
                     <ExploreIcon />
                     Explore
                   </button>
-                  <button className="flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
+                  <button className="hidden sm:flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
                     <ForumIcon />
                     Communities
                   </button>
-                  <button className="flex justify-start gap-2 border rounded-sm p-2 disabled-link">
+                  <button className="hidden sm:flex justify-start gap-2 border rounded-sm p-2 disabled-link">
                     <WhatshotIcon />
                     Trending
                   </button>
-                  <button className="flex justify-start gap-2 border rounded-sm p-2 disabled-link">
+                  <button className="hidden sm:flex justify-start gap-2 border rounded-sm p-2 disabled-link">
                     <PersonAddIcon />
                     Friends
                   </button>
                   <button
-                    className="flex justify-start gap-2 border rounded-sm p-2 hover:underline"
+                    className="ml-[500px] sm:ml-0 flex justify-start gap-2 border rounded-sm p-2 hover:underline"
                     onClick={() => navigate("/terms")}
                   >
                     <GavelIcon />
