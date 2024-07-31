@@ -90,7 +90,7 @@ const App = () => {
                 <div className="dark:text-white flex items-center sm:items-stretch text-nowrap sm:flex-col gap-2">
                   <button
                     onClick={() => navigate("/explore")}
-                    className="ml-[1045px] sm:ml-0 hidden sm:flex justify-start gap-2 border rounded-sm p-2 "
+                    className="ml-[600px] sm:ml-0 sm:flex justify-start gap-2 border rounded-sm p-2 "
                   >
                     <ExploreIcon />
                     Explore
@@ -108,7 +108,7 @@ const App = () => {
                     Friends
                   </button>
                   <button
-                    className="ml-[500px] sm:ml-0 flex justify-start gap-2 border rounded-sm p-2 hover:underline"
+                    className=" sm:ml-0 flex justify-start gap-2 border rounded-sm p-2 hover:underline"
                     onClick={() => navigate("/terms")}
                   >
                     <GavelIcon />
