@@ -32,6 +32,7 @@ import PolicyIcon from "@mui/icons-material/Policy";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import InfoIcon from "@mui/icons-material/Info";
 import GestureIcon from "@mui/icons-material/Gesture";
+import Explore from "./leftBar/Explore";
 const App = () => {
   const [postID, setPostID] = useState(null);
   const [page, setPage] = useState(1);
@@ -87,7 +88,10 @@ const App = () => {
                 lg={2}
               >
                 <div className="dark:text-white flex items-center sm:items-stretch text-nowrap sm:flex-col gap-2">
-                  <button className="ml-[1045px] sm:ml-0 hidden sm:flex justify-start gap-2 disabled-link border rounded-sm p-2 ">
+                  <button
+                    onClick={() => navigate("/explore")}
+                    className="ml-[1045px] sm:ml-0 hidden sm:flex justify-start gap-2 border rounded-sm p-2 "
+                  >
                     <ExploreIcon />
                     Explore
                   </button>
@@ -183,6 +187,7 @@ const App = () => {
             </Grid>
           }
         />
+        <Route path="/explore" element={<Explore />} />
         <Route path="/postDetails/:id" element={<PostDetails />} />
         <Route
           path="/create"

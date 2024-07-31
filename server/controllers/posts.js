@@ -4,8 +4,8 @@ import PostMessage from "../models/postMessage.js";
 export const getPosts = async (req, res) => {
   const { page } = req.params;
 
-  const LIMIT = 4;
-  const startIndex = (Number(page) - 1) * LIMIT; //0, 4, 8... indexes
+  const LIMIT = 16;
+  const startIndex = (Number(page) - 1) * LIMIT; //0, 15 ... indexes
 
   try {
     const total = await PostMessage.countDocuments({});
