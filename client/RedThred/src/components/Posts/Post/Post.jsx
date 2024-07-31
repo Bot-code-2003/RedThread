@@ -179,8 +179,8 @@ const Post = ({ post, setPostID }) => {
         <img
           src={post.selectedFile}
           style={{
-            maxWidth: imageWidth < 600 ? "100%" : "none",
-            minWidth: imageWidth >= 600 ? "100%" : "none",
+            maxWidth: imageWidth < 600 ? "100%" : isMobile ? "100%" : "80%",
+            // minWidth: imageWidth >= 600 ? "100%" : "none",
             borderRadius: imageWidth < 600 ? 0 : "5px",
             zIndex: 1,
           }}
@@ -225,7 +225,7 @@ const Post = ({ post, setPostID }) => {
             alignItems: "center",
             gap: "5px",
           }}
-          // onClick={handleLike}
+          onClick={() => navigate(`/postDetails/${post._id}`)}
           // disabled={loadingLike}
         >
           <CommentIcon fontSize="small" />
