@@ -16,7 +16,7 @@ const PostSkeleton = () => {
         <div className="post-part-2 text-sm mb-1">
           <div className="flex justify-between flex-col sm:flex-row">
             <div className="titleText dark:text-white bg-gray-200 h-6 w-60 rounded-md mb-1"></div>
-            <div className="tag bg-gray-200 h-4 w-24 rounded-md ml-1"></div>
+            <div className="tag bg-gray-200 h-4 w-24 rounded-md mb-1"></div>
           </div>
           <div className="text-black dark:text-gray-300 bg-gray-200 h-6  rounded-md"></div>
         </div>

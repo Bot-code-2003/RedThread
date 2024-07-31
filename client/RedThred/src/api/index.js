@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://red-thread-nine.vercel.app" });
 
 /**
  * Adds an authorization header to all outgoing HTTP requests if a token is available in local storage.
