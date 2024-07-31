@@ -10,11 +10,14 @@ import { useDispatch } from "react-redux";
 import { Alert } from "@mui/material";
 import { styles } from "../../../styles";
 import { deletePost, likePost } from "../../../actions/posts";
+import { useMediaQuery } from "@mui/material";
 
 const Post = ({ post, setPostID }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const [imageWidth, setImageWidth] = useState(null);
   const [loadingLike, setLoadingLike] = useState(false);
@@ -116,23 +119,24 @@ const Post = ({ post, setPostID }) => {
       </div>
       <div className="post-part-2 text-sm mb-1">
         <div className="flex justify-between flex-col sm:flex-row">
-          <Link onClick={handleLinkClick}>
-            <h1
-              style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
-              className={`${styles.titleText} max-w-[100%] hover:underline dark:text-white`}
-            >
-              {post.title}
-            </h1>
-          </Link>
+          <h1
+            style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
+            className={`${styles.titleText} max-w-[100%] hover:underline dark:text-white`}
+          >
+            {post.title}
+          </h1>
+
           <p className={`${styles.tag} w-auto`}>
             {post.tags.map((tag) => `#${tag} `)}
           </p>
         </div>
         <div
-          className={` ${styles.paragraphText} mt-1 dark:text-gray-300`}
+          className={`${styles.paragraphText} mt-1 dark:text-gray-300`}
           dangerouslySetInnerHTML={{
             __html: post?.message
-              ? post.message.length > 250
+              ? isMobile
+                ? post.message.substring(0, 100) + "..."
+                : post.message.length > 250
                 ? post.message.substring(0, 250) + "..."
                 : post.message
               : "",
