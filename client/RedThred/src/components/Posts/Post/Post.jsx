@@ -11,6 +11,7 @@ import { Alert } from "@mui/material";
 import { styles } from "../../../styles";
 import { deletePost, likePost } from "../../../actions/posts";
 import { useMediaQuery } from "@mui/material";
+import CommentIcon from "@mui/icons-material/Comment";
 
 const Post = ({ post, setPostID }) => {
   const dispatch = useDispatch();
@@ -26,12 +27,12 @@ const Post = ({ post, setPostID }) => {
 
   const handleHorizIconClick = (e) => {
     e.preventDefault();
-    setShowAlert(true);
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 2000);
-    // setPostID(post._id);
-    // navigate("/create");
+    // setShowAlert(true);
+    // setTimeout(() => {
+    //   setShowAlert(false);
+    // }, 2000);
+    setPostID(post._id);
+    navigate("/create");
   };
 
   const handleLinkClick = async (e) => {
@@ -105,8 +106,7 @@ const Post = ({ post, setPostID }) => {
             • {moment(post.createdAt).tz("Asia/Kolkata").fromNow()}
           </p>
         </div>
-        {(user?.result?.sub === post?.creator ||
-          user?.result?._id === post?.creator) && (
+        {user?.result?._id === import.meta.env.VITE_ADMIN_ID && (
           <Button
             style={{ color: "gray" }}
             size="small"
@@ -119,12 +119,18 @@ const Post = ({ post, setPostID }) => {
       </div>
       <div className="post-part-2 text-sm mb-1">
         <div className="flex justify-between flex-col sm:flex-row">
-          <h1
-            style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
+          <Link
             className={`${styles.titleText} max-w-[100%] hover:underline dark:text-white`}
+            to={`/postDetails/${post._id}`}
+            onClick={handleLinkClick}
           >
-            {post.title}
-          </h1>
+            <h1
+              style={{ wordBreak: "break-word", overflowWrap: "break-word" }}
+              className={`${styles.titleText} max-w-[100%] hover:underline dark:text-white`}
+            >
+              {post.title}
+            </h1>
+          </Link>
 
           <p className={`${styles.tag} w-auto`}>
             {post.tags.map((tag) => `#${tag} `)}
@@ -209,6 +215,21 @@ const Post = ({ post, setPostID }) => {
             <FavoriteBorderIcon fontSize="small" />
           )}
           <p>{post.likes.length}</p>
+        </button>
+        <button
+          className="p-2 rounded px-4 dark:bg-gray-700 bg-gray-300"
+          size="small"
+          style={{
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+          }}
+          // onClick={handleLike}
+          // disabled={loadingLike}
+        >
+          <CommentIcon fontSize="small" />
+          <p>{post.comments.length}</p>
         </button>
         {(user?.result?.sub === post?.creator ||
           user?.result?._id === post?.creator ||

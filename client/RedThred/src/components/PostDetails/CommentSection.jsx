@@ -18,12 +18,12 @@ const CommentSection = ({ post }) => {
     }
   }, [post, dispatch]);
 
-  const handleEnterKey = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      addComment();
-    }
-  };
+  // const handleEnterKey = (e) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     addComment();
+  //   }
+  // };
 
   const addComment = async () => {
     const commentAuthor = user.result.name;
@@ -55,7 +55,7 @@ const CommentSection = ({ post }) => {
       {user && (
         <div className="flex flex-col w-full sm:w-[50%]">
           <textarea
-            onKeyDown={handleEnterKey}
+            // onKeyDown={handleEnterKey}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Write a comment"
