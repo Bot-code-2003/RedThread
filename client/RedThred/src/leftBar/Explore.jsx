@@ -5,79 +5,86 @@ import { useMediaQuery } from "@mui/material";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useNavigate } from "react-router-dom";
+import moment from "moment-timezone";
 
 const Explore = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const posts = useSelector((state) => state.posts.allPosts);
   const navigate = useNavigate();
 
-  // Filter out non-image posts if on mobile
-  const filteredPosts = isMobile
-    ? posts.filter((post) => post.selectedFile)
-    : posts;
-
   return (
     <div className="p-4">
       <Grid container spacing={isMobile ? 1 : 3}>
-        {filteredPosts.map((post) => (
-          <Grid item xs={4} sm={4} md={4} lg={3} key={post._id}>
+        {posts.map((post) => (
+          <Grid item xs={6} sm={6} md={4} lg={3} key={post._id}>
             {post.selectedFile ? (
               <div
+                className="mb-1 sm:mb-0 hover:cursor-pointer shadow-md rounded-lg p-2"
                 onClick={() => navigate(`/postDetails/${post._id}`)}
-                className="relative w-full pb-[100%] bg-cover bg-center rounded-sm hover:cursor-pointer hover:shadow-2xl"
-                style={{
-                  backgroundImage: `url(${post.selectedFile})`,
-                }}
               >
-                <p className="absolute top-2 left-1 text-[10px] sm:text-sm bg-white bg-opacity-80 dark:bg-gray-800 dark:bg-opacity-50 p-1 rounded">
-                  {isMobile
-                    ? post.title.length > 15
-                      ? post.title.substring(0, 15) + ".."
-                      : post.title
-                    : post.title.length > 40
-                    ? post.title.substring(0, 40) + "..."
-                    : post.title}
-                </p>
-                <div className="absolute bottom-1 left-1 flex gap-2 bg-white bg-opacity-80 dark:bg-gray-800 dark:bg-opacity-50 p-1 rounded">
-                  <p className="text-[10px] sm:text-sm">
-                    <FavoriteBorder fontSize={isMobile ? "xs" : "medium"} />{" "}
-                    {post.likes.length}
+                <div
+                  className="div-one relative w-full pb-[100%] bg-cover bg-center rounded-lg"
+                  style={{
+                    backgroundImage: `url(${post.selectedFile})`,
+                  }}
+                ></div>
+                <div className="div-two p-1">
+                  <h2 className="text-md sm:text-xl font-bold mt-1">
+                    {isMobile
+                      ? post.title.length > 16
+                        ? post.title.substring(0, 16) + ".."
+                        : post.title
+                      : post.title.length > 24
+                      ? post.title.substring(0, 25) + "..."
+                      : post.title}
+                  </h2>
+                  <p className="text-xs sm:text-lg text-gray-500">
+                    {post.name}
                   </p>
-                  <p className="text-[10px] sm:text-sm">
-                    <CommentIcon fontSize={isMobile ? "xs" : "medium"} />{" "}
-                    {post.comments.length}
-                  </p>
+                  <div>
+                    <p className="text-xs sm:text-lg text-gray-500">
+                      {post.likes.length} likes •{" "}
+                      {moment(post.createdAt).tz("Asia/Kolkata").fromNow()}{" "}
+                    </p>
+                  </div>
                 </div>
               </div>
             ) : (
               <div
-                className="relative w-full p-3 border min-h-[100%] rounded-sm hover:cursor-pointer hover:shadow-2xl"
+                className="mb-1 sm:mb-0 hover:cursor-pointer shadow-md rounded-lg flex flex-col justify-between min-h-[100%] p-2"
                 onClick={() => navigate(`/postDetails/${post._id}`)}
               >
-                <p className={`text-${isMobile ? "xs" : "xl"}`}>
-                  {isMobile && post.title.length > 20
-                    ? post.title.substring(0, 20) + "..."
-                    : post.title}
-                </p>
                 <div
-                  className={`mt-1 dark:text-gray-300 text-${
-                    isMobile ? "xs" : "base"
-                  }`}
+                  className="text-xs relative w-full p-1 border rounded-md "
                   dangerouslySetInnerHTML={{
-                    __html: post?.message
-                      ? post.message.length > 450
-                        ? post.message.substring(0, 450) + "..."
-                        : post.message
-                      : "",
+                    __html: isMobile
+                      ? post?.message.length > 280
+                        ? post?.message.substring(0, 280) + "..."
+                        : post?.message
+                      : post?.message.length > 500
+                      ? post?.message.substring(0, 500) + "..."
+                      : post?.message,
                   }}
                 />
-                <div className="absolute bottom-1 left-1 flex gap-2 bg-white bg-opacity-50 dark:bg-gray-800 dark:bg-opacity-50 p-1 rounded">
-                  <p>
-                    <FavoriteBorder /> {post.likes.length}
+                <div className="div-two p-1">
+                  <h2 className="text-md sm:text-xl font-bold mt-1">
+                    {isMobile
+                      ? post.title.length > 18
+                        ? post.title.substring(0, 17) + ".."
+                        : post.title
+                      : post.title.length > 24
+                      ? post.title.substring(0, 25) + "..."
+                      : post.title}
+                  </h2>
+                  <p className="text-xs sm:text-lg text-gray-500">
+                    {post.name}
                   </p>
-                  <p>
-                    <CommentIcon /> {post.comments.length}
-                  </p>
+                  <div>
+                    <p className="text-xs sm:text-lg text-gray-500">
+                      {post.likes.length} likes •{" "}
+                      {moment(post.createdAt).tz("Asia/Kolkata").fromNow()}{" "}
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
