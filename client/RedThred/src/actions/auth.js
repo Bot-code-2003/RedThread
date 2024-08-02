@@ -1,9 +1,11 @@
 import * as api from "../api";
 
 /**
+ * Logs the existing user.
+ *
  * @param {object} formData
  * @param {function} navigate
- * @returns null
+ * @returns {Promise<void>}
  */
 export const signin = (formData, navigate) => async (dispatch) => {
   try {
@@ -21,9 +23,11 @@ export const signin = (formData, navigate) => async (dispatch) => {
 };
 
 /**
+ * Signs the new user.
+ *
  * @param {object} formData
  * @param {function} navigate
- * @returns null
+ * @returns {Promise<void>}
  */
 export const signup = (formData, navigate) => async (dispatch) => {
   try {

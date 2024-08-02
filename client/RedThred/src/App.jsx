@@ -45,6 +45,7 @@ const App = () => {
     // Fetch data according to the page.
     const fetchData = async () => {
       setLoading(true);
+      console.log("Page: ", page);
       const data = await dispatch(getPosts(page)); // Pass the page parameter
       setLoading(false);
       if (data) {
@@ -58,21 +59,35 @@ const App = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading, page]);
+  }, [loading, page, totalPages]);
 
   const handleScroll = () => {
-    // When user scrolls to the bottom of the page it updates page thereby resulting in above useEffect()
     if (
       window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.scrollHeight - 50 &&
       !loading &&
       page < totalPages
     ) {
-      setLoading(true); // Trigger scroll useEffect
+      setLoading(true);
       setTimeout(() => {
-        setPage((prevPage) => prevPage + 1); // Increment page
+        setPage((prevPage) => prevPage + 1);
       }, 2000);
     }
+  };
+
+  // Adding debounce
+  useEffect(() => {
+    const debounceHandleScroll = debounce(handleScroll, 200);
+    window.addEventListener("scroll", debounceHandleScroll);
+    return () => window.removeEventListener("scroll", debounceHandleScroll);
+  }, [loading, page]);
+
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func(...args), delay);
+    };
   };
 
   return (

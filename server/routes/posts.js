@@ -15,6 +15,10 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
+/**
+ * auth param adds userId to headers to confirm the user status.
+ */
+
 router.get("/search", getPostBySearch);
 router.get("/:page", getPosts);
 router.get("/details/:id", getPost);

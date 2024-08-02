@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "https://red-thread-nine.vercel.app" });
+const API = axios.create({ baseURL: "http://localhost:5000" });
+
+// https://red-thread-nine.vercel.app
 
 /**
  * Adds an authorization header to all outgoing HTTP requests if a token is available in local storage.
@@ -19,7 +21,10 @@ API.interceptors.request.use((req) => {
 });
 // const url = "http://localhost:5000/posts";
 
-export const fetchPosts = (page) => API.get(`/posts/${page}`); // send the page no. get data,currentPage, totalpages
+export const fetchPosts = (page) => (
+  console.log("Fetching posts...(api)"), API.get(`/posts/${page}`)
+);
+// send the page no. get data,currentPage, totalpages
 
 /**
  * Fetch a clicked post.
@@ -67,8 +72,23 @@ export const deletePost = (id) => API.delete(`/posts/${id}`);
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
 
+/**
+ * Create a comment
+ *
+ * @param {String} commentAuthor
+ * @param {String} authorId
+ * @param {String} comment
+ * @param {String} postId
+ * @returns {object} - axios response containing updatedPost in data key.
+ */
 export const commentPost = (commentAuthor, authorId, comment, postId) =>
   API.post(`/posts/${postId}/comment`, { commentAuthor, authorId, comment });
 
+/**
+ * Delets a post.
+ *
+ * @param {String} postId
+ * @param {String} commentId
+ */
 export const deleteComment = (postId, commentId) =>
   API.delete(`/posts/${postId}/comment/${commentId}`);

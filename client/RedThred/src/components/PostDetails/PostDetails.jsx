@@ -95,7 +95,7 @@ const PostDetails = () => {
                 overflow: "hidden",
               }}
             >
-              {(imageWidth < 600 || imageHeight > 600) && (
+              {(imageWidth < 600 || imageHeight > 1000) && (
                 <div
                   style={{
                     position: "absolute",
@@ -114,8 +114,8 @@ const PostDetails = () => {
               <img
                 src={post.selectedFile}
                 style={{
-                  maxWidth: imageWidth < 600 ? "100%" : "600px",
-                  maxHeight: imageHeight < 600 ? "100%" : "600px",
+                  maxWidth: imageWidth < 600 ? "100%" : "1000px",
+                  maxHeight: imageHeight < 600 ? "100%" : "800px",
                   borderRadius: imageWidth < 600 ? 0 : "5px",
                   zIndex: 1,
                 }}
