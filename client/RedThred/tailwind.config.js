@@ -5,6 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        purpleBlueStart: "#6a11cb",
+        purpleBlueEnd: "#2575fc",
         post: {
           light: "#f3f4f6",
           medium: "#e5e7eb",

@@ -21,6 +21,7 @@ import CommunityGuidelines from "./leftBar/CommunityGuidelines";
 import PrivacyPolicy from "./leftBar/PrivacyPolicy";
 import VersionInfo from "./leftBar/VersionInfo";
 import AboutUs from "./leftBar/AboutUs";
+import Interests from "./components/Interests";
 
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -46,7 +47,7 @@ const App = () => {
     const fetchData = async () => {
       setLoading(true);
       console.log("Page: ", page);
-      const data = await dispatch(getPosts(page)); // Pass the page parameter
+      const data = await dispatch(getPosts(page, (app = "true"))); // Pass the page parameter
       setLoading(false);
       if (data) {
         setTotalPages(data.totalPages); // Update total pages state
@@ -179,6 +180,7 @@ const App = () => {
             </Grid>
           }
         />
+        <Route path="newSignup" element={<Interests />} />
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/guidelines" element={<CommunityGuidelines />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />

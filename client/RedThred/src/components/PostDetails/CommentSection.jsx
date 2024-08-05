@@ -77,9 +77,19 @@ const CommentSection = ({ post }) => {
             key={i}
             className="flex items-start  border-b dark:border-gray-700 border-gray-300 pb-2 gap-3 mb-2 mt-2"
           >
-            <div className="w-[40px] h-[40px] flex items-center border border-gray-500 justify-center rounded-full">
-              <h3>{comment.author.charAt(0).toUpperCase()}</h3>
-            </div>
+            {user?.result?.profilePic ? (
+              <img
+                className="w-10 h-10 rounded-full"
+                src={user?.result?.profilePic}
+                alt=""
+              />
+            ) : (
+              <img
+                className="w-10 h-10 rounded-full"
+                src={user?.result?.picture}
+                alt=""
+              />
+            )}
             <div>
               <p className="text-gray-400 text-sm">
                 {comment.author} • {moment(comment.createdAt).fromNow()}

@@ -191,7 +191,7 @@ const Navbar = () => {
           <div className="relative" ref={menuRef}>
             <button
               onClick={handleUserLoginClick}
-              className="w-[40px] h-[40px] rounded-full flex items-center border border-gray-500 justify-center"
+              className="w-[50px] h-[50px] rounded-full flex items-center  justify-center"
             >
               {user?.result?.picture ? (
                 <img
@@ -200,14 +200,25 @@ const Navbar = () => {
                   style={{ borderRadius: "50%" }}
                 />
               ) : (
-                <h3 className="text-black bolder text-center dark:text-white">
-                  {user?.result?.name.charAt(0).toUpperCase()}
-                </h3>
+                <img src={user?.result?.profilePic} alt="" />
               )}
             </button>
             {userClick && (
               <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 border rounded shadow-lg p-3 z-10">
-                <button className="block w-full px-4 py-2 text-left text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+                <button className="flex gap-2 w-full px-4 py-2 text-left text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+                  {user?.result?.picture ? (
+                    <img
+                      src={user?.result?.picture}
+                      alt=""
+                      className="w-7 h-7 rounded-full mr-2"
+                    />
+                  ) : (
+                    <img
+                      src={user?.result?.profilePic}
+                      alt=""
+                      className="w-7 h-7 rounded-full mr-2"
+                    />
+                  )}
                   {user?.result?.name}
                 </button>
                 <div
@@ -261,7 +272,7 @@ const Navbar = () => {
           </button>
         )}
       </div>
-      <HamMenu user={user} />
+      <HamMenu />
     </div>
   );
 };

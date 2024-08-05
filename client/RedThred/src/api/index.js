@@ -21,9 +21,12 @@ API.interceptors.request.use((req) => {
 });
 // const url = "http://localhost:5000/posts";
 
-export const fetchPosts = (page) => (
-  console.log("Fetching posts...(api)"), API.get(`/posts/${page}`)
-);
+/**
+ *
+ * @param {*} page - Page num to be fetched.
+ * @returns
+ */
+export const fetchPosts = (page) => API.get(`/posts/${page}`);
 // send the page no. get data,currentPage, totalpages
 
 /**

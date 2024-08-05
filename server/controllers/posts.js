@@ -50,7 +50,7 @@ export const getPost = async (req, res) => {
 /**
  * Searches for posts based on a search query and returns recommended posts.
  *
- * @param {object} req - Express request object with searchQuery query parameter.
+ * @param {object} req - Express request object with {String} searchQuery query parameter.
  * @param {object} res - Express response object.
  */
 export const getPostBySearch = async (req, res) => {
@@ -61,17 +61,49 @@ export const getPostBySearch = async (req, res) => {
     const posts = await PostMessage.find({ title });
 
     // Extract unique tags from the found posts
-    const tags = [...new Set(posts.flatMap((post) => post.tags))];
+    const tags = [
+      ...new Set(
+        posts.flatMap((post) =>
+          post.tags.map((tag) => tag.replace("#", "").trim())
+        )
+      ),
+    ];
 
-    // Find recommended posts based on tags
-    const recommendedPosts = await PostMessage.find({ tags: { $in: tags } });
+    // console.log("Search query tags: ", tags); // Debugging: log the tags
+
+    // Reconstruct the tags to match the database format
+    const formattedTags = tags.map((tag) => `#${tag}`);
+
+    // console.log("Formatted tags for query: ", formattedTags); // Debugging: log the formatted tags
+
+    // Find recommended posts based on tags and limit to 8
+    const recommendedPosts = await PostMessage.find({
+      tags: { $in: formattedTags },
+    });
 
     // Filter out the original posts from the recommended ones
     const recommendedFiltered = recommendedPosts.filter(
       (recPost) => !posts.some((post) => post._id.equals(recPost._id))
     );
 
-    res.json({ data: posts, recommendedPosts: recommendedFiltered });
+    // Sort recommended posts by the number of matching tags
+    const sortedRecommendedPosts = recommendedFiltered
+      .map((recPost) => {
+        const matchingTagsCount = recPost.tags.reduce((count, tag) => {
+          if (formattedTags.includes(tag)) {
+            return count + 1;
+          }
+          return count;
+        }, 0);
+
+        return { ...recPost.toObject(), matchingTagsCount };
+      })
+      .sort((a, b) => b.matchingTagsCount - a.matchingTagsCount)
+      .slice(0, 8);
+
+    // console.log("Sorted recommended posts: ", sortedRecommendedPosts); // Debugging: log the sorted recommended posts
+
+    res.json({ data: posts, recommendedPosts: sortedRecommendedPosts });
   } catch (error) {
     console.error(error);
     res.status(404).send({ message: error.message });

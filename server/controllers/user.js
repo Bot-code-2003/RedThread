@@ -31,17 +31,19 @@ export const signin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstName, lastName, profilePic } = req.body;
   const existingUser = await User.findOne({ email });
   if (existingUser)
     return res
       .status(400)
       .json({ message: "User already exists (user-controller)" });
   const hashedPass = await bcrypt.hash(password, 12);
+
   const result = await User.create({
     email: email,
     password: hashedPass,
     name: `${firstName} ${lastName}`,
+    profilePic: profilePic,
   });
 
   const token = jwt.sign({ email: result.email, id: result._id }, "test", {

@@ -5,9 +5,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { BrowserRouter as Router } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { Grid } from "@mui/material";
-
-import { Link } from "react-router-dom";
 
 import reducers from "./reducers";
 import App from "./App";

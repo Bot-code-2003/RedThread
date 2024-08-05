@@ -10,11 +10,12 @@ import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 
-const HamMenu = ({ user }) => {
+const HamMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAppearanceOptions, setShowAppearanceOptions] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -31,6 +32,7 @@ const HamMenu = ({ user }) => {
   };
 
   const logout = () => {
+    console.log(user.result.picture);
     localStorage.clear();
     setIsOpen(false);
     navigate("/");
@@ -81,7 +83,20 @@ const HamMenu = ({ user }) => {
                 <AddOutlinedIcon />
                 Create
               </button>
-              <button className="block w-full px-4 py-2 text-left text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+              <button className="flex w-full px-4 py-2 text-left text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+                {user?.result?.picture ? (
+                  <img
+                    src={user?.result?.picture}
+                    alt=""
+                    className="w-7 h-7 rounded-full mr-2"
+                  />
+                ) : (
+                  <img
+                    src={user?.result?.profilePic}
+                    alt=""
+                    className="w-7 h-7 rounded-full mr-2"
+                  />
+                )}
                 {user?.result?.name}
               </button>
               <div

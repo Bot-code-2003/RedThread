@@ -136,7 +136,10 @@ const Post = ({ post, setPostID }) => {
           </Link>
 
           <p className={`${styles.tag} w-auto`}>
-            {post.tags.map((tag) => `#${tag} `)}
+            {post.tags.slice(0, 4).map((tag, index) => (
+              <span key={index}>{tag.trim()} </span>
+            ))}
+            {post.tags.length > 5 && <span>...</span>}
           </p>
         </div>
         <div

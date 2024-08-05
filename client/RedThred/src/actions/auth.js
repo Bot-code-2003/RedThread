@@ -31,13 +31,14 @@ export const signin = (formData, navigate) => async (dispatch) => {
  */
 export const signup = (formData, navigate) => async (dispatch) => {
   try {
+    console.log(formData);
     const { data } = await api.signUp(formData); /**returns { result, token } */
     const action = {
       type: "AUTH",
       payload: data,
     };
     dispatch(action);
-    navigate("/");
+    navigate("/newSignup");
   } catch (error) {
     console.log(error);
   }
