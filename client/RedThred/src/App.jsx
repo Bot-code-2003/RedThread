@@ -47,7 +47,7 @@ const App = () => {
     const fetchData = async () => {
       setLoading(true);
       console.log("Page: ", page);
-      const data = await dispatch(getPosts(page, (app = "true"))); // Pass the page parameter
+      const data = await dispatch(getPosts(page)); // Pass the page parameter
       setLoading(false);
       if (data) {
         setTotalPages(data.totalPages); // Update total pages state
